@@ -4,7 +4,6 @@ COPY package.json .
 COPY yarn.lock .
 COPY tsconfig.json .
 COPY mocks .
-COPY .cache .
 COPY src .
 RUN yarn install
 RUN yarn build

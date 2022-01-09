@@ -8,6 +8,7 @@ enum CacheKeys {
 }
 
 const CacheDir = path.resolve(dirname, '..', '..', '.cache');
+await fs.mkdir(CacheDir, {recursive: true});
 
 function readCache<T>(cacheKey: CacheKeys): Promise<CacheObject<T> | undefined> {
     return new Promise((resolve, reject) => {
