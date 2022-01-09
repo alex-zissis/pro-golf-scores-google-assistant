@@ -1,4 +1,5 @@
 import numToWords from 'number-to-words';
+import {Leaderboard} from '../types/leaderboard';
 
 const getReadableStringFromScore = (score: number) => {
     if (score === 0) {
@@ -10,4 +11,17 @@ const getReadableStringFromScore = (score: number) => {
     }
 };
 
-export {getReadableStringFromScore};
+const getLeadersFromLeaderboard = (leaderboard: Leaderboard[]): Leaderboard[] => {
+    let leaders = [];
+    for (const player of leaderboard) {
+        if (player.position === 1) {
+            leaders.push(player);
+        } else {
+            break;
+        }
+    }
+
+    return leaders;
+};
+
+export {getLeadersFromLeaderboard, getReadableStringFromScore};
