@@ -5,7 +5,13 @@ import {CurrentTournament} from './types/cache';
 import {CacheKeys, readCache, writeCache} from './cache.js';
 import {Schedule, Tournament} from './api.js';
 import {mapTournamentToTournamentWithDates} from './mapper/tournament.js';
-import {addHoursToDate, getFlagEmoji, getScoreForDisplay, joinArrayAsSentence} from './utils.js';
+import {
+    addHoursToDate,
+    getFlagEmoji,
+    getRoundScoreForDisplay,
+    getScoreForDisplay,
+    joinArrayAsSentence,
+} from './utils.js';
 import {findClosestTournament} from './logic/tournament.js';
 import {getLeadersFromLeaderboard, getReadableStringFromScore} from './logic/golf.js';
 import {Leaderboard} from './types/leaderboard';
@@ -117,8 +123,8 @@ app.handle('getLeaderboard', async (conv) => {
                         cells: [
                             {text: `${player.first_name} ${player.last_name}`},
                             {text: getFlagEmoji(countries.getAlpha2Code(player.country, 'en'))},
-                            {text: player.score.toString()},
-                            {text: getScoreForDisplay(player.rounds[roundInProgress - 1])},
+                            {text: getScoreForDisplay(player.score)},
+                            {text: getRoundScoreForDisplay(player.rounds[roundInProgress - 1])},
                         ],
                     };
                 }),

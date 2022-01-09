@@ -24,7 +24,7 @@ interface Round {
     sequence: number;
 }
 
-interface Leaderboard {
+export interface Leaderboard {
     id: string;
     first_name: string;
     last_name: string;
@@ -37,7 +37,7 @@ interface Leaderboard {
     strokes: number;
     abbr_name: string;
     rounds: Round[];
-    status: string;
+    status?: string;
 }
 
 export interface LeaderboardResponse {
