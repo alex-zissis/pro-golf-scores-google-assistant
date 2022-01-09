@@ -8,6 +8,7 @@ import {mapTournamentToTournamentWithDates} from './mapper/tournament.js';
 import {
     addHoursToDate,
     getFlagEmoji,
+    getPositionForDisplay,
     getRoundScoreForDisplay,
     getScoreForDisplay,
     joinArrayAsSentence,
@@ -116,11 +117,18 @@ app.handle('getLeaderboard', async (conv) => {
     conv.add(
         new Table({
             title: currentTournament.name,
-            columns: [{header: 'Name'}, {header: 'Nation'}, {header: 'Total'}, {header: `R${roundInProgress}`}],
+            columns: [
+                {header: '#'},
+                {header: 'Name'},
+                {header: 'Nation'},
+                {header: 'Total'},
+                {header: `R${roundInProgress}`},
+            ],
             rows: [
-                ...leaderboardForDisplay.map((player) => {
+                ...leaderboardForDisplay.map((player, i) => {
                     return {
                         cells: [
+                            {text: getPositionForDisplay(player, leaderboardForDisplay[i - 1])},
                             {text: `${player.first_name} ${player.last_name}`},
                             {text: getFlagEmoji(countries.getAlpha2Code(player.country, 'en'))},
                             {text: getScoreForDisplay(player.score)},

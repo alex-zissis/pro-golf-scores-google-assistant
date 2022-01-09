@@ -1,5 +1,5 @@
 import {fileURLToPath} from 'url';
-import {Round} from './types/leaderboard';
+import {Leaderboard, Round} from './types/leaderboard';
 
 const dirname = fileURLToPath(import.meta.url);
 
@@ -44,6 +44,18 @@ const getScoreForDisplay = (score: number): string => {
     return score.toString();
 };
 
+const getPositionForDisplay = (player: Leaderboard, lastPlayer: Leaderboard) => {
+    if (!lastPlayer) {
+        return player.position.toString();
+    }
+
+    if (player.position === lastPlayer.position) {
+        return '';
+    }
+
+    return player.position.toString();
+};
+
 function getFlagEmoji(countryCode: string) {
     const codePoints = countryCode
         .toUpperCase()
@@ -54,4 +66,12 @@ function getFlagEmoji(countryCode: string) {
     return String.fromCodePoint(...codePoints);
 }
 
-export {addHoursToDate, getRoundScoreForDisplay, getScoreForDisplay, joinArrayAsSentence, getFlagEmoji, dirname};
+export {
+    addHoursToDate,
+    getPositionForDisplay,
+    getRoundScoreForDisplay,
+    getScoreForDisplay,
+    joinArrayAsSentence,
+    getFlagEmoji,
+    dirname,
+};
