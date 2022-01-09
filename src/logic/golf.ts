@@ -1,6 +1,6 @@
 import numToWords from 'number-to-words';
 import {Leaderboard} from '../types/leaderboard';
-import {getScoreForDisplay} from '../utils';
+import {getScoreForDisplay} from '../utils.js';
 
 const getReadableStringFromScore = (score: number) => {
     if (score === 0) {
