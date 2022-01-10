@@ -3,10 +3,15 @@ WORKDIR /app
 COPY package.json .
 COPY yarn.lock .
 COPY tsconfig.json .
-COPY mocks .
-COPY src .
+COPY mocks ./mocks
+COPY src ./src
+COPY jest.config.js .
 RUN yarn install
 RUN yarn build
+
+FROM ts-builder AS test
+WORKDIR /app
+RUN ["yarn", "test"]
 
 FROM node:14-alpine AS prod-runtime
 WORKDIR /app
@@ -16,4 +21,4 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn install --production
 EXPOSE 3000
-ENTRYPOINT ["yarn", "start"]
+ENTRYPOINT ["yarn", "start:prod"]
