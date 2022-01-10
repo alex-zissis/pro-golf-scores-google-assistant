@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: ap-southeast-2                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: pro-golf-scores-api   # set this to your Amazon ECR repository name
+  ECR_REPOSITORY: pro-golf-scores-api  # set this to your Amazon ECR repository name
   ECS_SERVICE: pro-golf-scores-api                   # set this to your Amazon ECS service name
   ECS_CLUSTER: ecs-cluster-main                 # set this to your Amazon ECS cluster name
                                                # file, e.g. .aws/task-definition.json
@@ -39,7 +39,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: latest
+          IMAGE_TAG: $GITHUB_SHA
         run: |
           # Build a docker container and
           # push it to ECR so that it can
@@ -47,10 +47,25 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition service \
+          --query taskDefinition > task-definition.json
 
-      - name: Deploy ECS task
-        uses: donaldpiret/ecs-deploy@master
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
+          task-definition: task-definition.json
+          container-name: pro-golf-scores-api
+          image: $ECR_REGISTRY/$ECR_REPOSITORY
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: $ECS_SERVICE
           cluster: $ECS_CLUSTER
-          target: $ECS_SERVICE
-          task: $CONTAINER_NAME
+          wait-for-service-stability: true
+          
