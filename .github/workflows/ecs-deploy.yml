@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: ap-southeast-2                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: 921344595439.dkr.ecr.ap-southeast-2.amazonaws.com # set this to your Amazon ECR repository name
+  ECR_REPOSITORY: "921344595439" # set this to your Amazon ECR repository name
   ECS_SERVICE: pro-golf-scores-api                   # set this to your Amazon ECS service name
   ECS_CLUSTER: ecs-cluster-main                 # set this to your Amazon ECS cluster name
                                                # file, e.g. .aws/task-definition.json
