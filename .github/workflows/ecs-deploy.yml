@@ -56,9 +56,11 @@ jobs:
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
+        env:
+          IMAGE_TAG: $GITHUB_SHA
         with:
           task-definition: task-definition.json
-          container-name: pro-golf-scores-api
+          container-name: pro-golf-scores-api:$IMAGE_TAG
           image: $ECR_REGISTRY/$ECR_REPOSITORY
 
       - name: Deploy Amazon ECS task definition
