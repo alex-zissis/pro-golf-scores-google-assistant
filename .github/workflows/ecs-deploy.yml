@@ -60,8 +60,8 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         with:
           task-definition: task-definition.json
-          container-name: pro-golf-scores-api:$IMAGE_TAG
-          image: $ECR_REGISTRY/$ECR_REPOSITORY
+          container-name: pro-golf-scores-api
+          image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
