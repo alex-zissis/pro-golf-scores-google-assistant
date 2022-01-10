@@ -50,7 +50,7 @@ jobs:
   
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition service \
+          aws ecs describe-task-definition --task-definition pro-golf-scores-api \
           --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
