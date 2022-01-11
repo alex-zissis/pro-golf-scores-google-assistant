@@ -7,8 +7,7 @@ import {ScheduleResponse} from './types/schedule.js';
 
 const [, , mock] = process.argv;
 const shouldMockRequest = !!mock;
-console.log({shouldMockRequest})
-const mocksDirecotry = path.resolve(dirname, '..', '..', 'mocks');
+const mocksDirectory = path.resolve(dirname, '..', 'mocks');
 
 const urlToJSONFile = (url: string) => {
     // http://api.sportradar.us/golf/trial/pga/v3/en/2022/tournaments/schedule.json?api_key=<API_KEY>
@@ -17,9 +16,9 @@ const urlToJSONFile = (url: string) => {
     const parts = url.split('/');
 
     if (parts.findIndex((part) => part.includes('leaderboard.json')) !== -1) {
-        return path.resolve(mocksDirecotry, 'leaderboard', `${parts[10]}.json`);
+        return path.resolve(mocksDirectory, 'leaderboard', `${parts[10]}.json`);
     } else if (parts.findIndex((part) => part.includes('schedule.json')) !== -1) {
-        return path.resolve(mocksDirecotry, 'schedule', 'pga', `${parts[8]}.json`);
+        return path.resolve(mocksDirectory, 'schedule', 'pga', `${parts[8]}.json`);
     }
 
     throw Error("Can't find JSON");
