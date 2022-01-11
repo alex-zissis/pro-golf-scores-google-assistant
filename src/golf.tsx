@@ -1,3 +1,5 @@
+/** @jsx ssml */
+import ssml from 'ssml-tsx';
 import {conversation, Table, Simple} from '@assistant/conversation';
 import dotenv from 'dotenv';
 import countries from 'i18n-iso-countries';
@@ -11,12 +13,14 @@ import {
     getPositionForDisplay,
     getRoundScoreForDisplay,
     getScoreForDisplay,
-    joinArrayAsSentence,
 } from './utils.js';
 import {findClosestTournament} from './logic/tournament.js';
-import {getLeadersFromLeaderboard, getReadableStringFromScore} from './logic/golf.js';
-import {Leaderboard} from './types/leaderboard';
+import {LeaderboardEntry} from './types/leaderboard';
+import {GetLeaderboardHandler} from './ssml/GetLeaderBoardHandler';
+
+// dotenv is only used in a localdev envrironment
 dotenv.config();
+const {renderToString} = ssml;
 
 const app = conversation({debug: process.env.NODE_ENV === 'development'});
 
@@ -46,9 +50,8 @@ app.handle('getLeaderboard', async (conv) => {
     const leaderboardResponse = await Tournament.getLeaderboard(currentTournament.id, currentTournament.year);
     const {leaderboard} = leaderboardResponse;
     const leaderboardForDisplay = leaderboard.slice(0, 10);
-    const leaders = getLeadersFromLeaderboard(leaderboard);
 
-    const getHighestRoundPlayerHasStarted = (player: Leaderboard) => {
+    const getHighestRoundPlayerHasStarted = (player: LeaderboardEntry) => {
         let highestRound = 0;
         for (const round of player.rounds) {
             if (round.thru > 0) {
@@ -89,24 +92,13 @@ app.handle('getLeaderboard', async (conv) => {
         i++;
     }
 
-    let speech = `<speak>The ${currentTournament.name} is currently underway. <break time="1" />`;
-
-    if (leaders.length === 1) {
-        const [leader] = leaders;
-        speech = `${speech} The leader is currently ${leader.first_name} ${
-            leader.last_name
-        } at ${getReadableStringFromScore(leader.score)}, ${
-            anyRoundVariance ? 'during' : 'after'
-        } the <say-as interpret-as="ordinal">${roundInProgress}</say-as> round.`;
-    } else {
-        speech = `${speech} ${joinArrayAsSentence(
-            leaders.map((player) => `${player.first_name} ${player.last_name}`)
-        )} are the joint leaders at ${getReadableStringFromScore(leaders[0].score)}, ${
-            anyRoundVariance ? 'during' : 'after'
-        } the <say-as interpret-as="ordinal">${roundInProgress}</say-as> round.`;
-    }
-
-    speech = `${speech} </speak>`;
+    const speech = (
+        renderToString(<GetLeaderboardHandler
+            leaderboardResponse={leaderboardResponse}
+            roundInProgress={roundInProgress}
+            anyRoundVariance={anyRoundVariance}
+        />)
+    );
 
     conv.add(
         new Simple({

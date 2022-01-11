@@ -7,6 +7,7 @@ import {ScheduleResponse} from './types/schedule.js';
 
 const [, , mock] = process.argv;
 const shouldMockRequest = !!mock;
+console.log({shouldMockRequest})
 const mocksDirecotry = path.resolve(dirname, '..', '..', 'mocks');
 
 const urlToJSONFile = (url: string) => {

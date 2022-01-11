@@ -1,4 +1,4 @@
-FROM node:14-alpine AS ts-builder
+FROM node:16-alpine AS ts-builder
 WORKDIR /app
 COPY package.json .
 COPY yarn.lock .
@@ -13,7 +13,7 @@ FROM ts-builder AS test
 WORKDIR /app
 RUN ["yarn", "test"]
 
-FROM node:14-alpine AS prod-runtime
+FROM node:16-alpine AS prod-runtime
 WORKDIR /app
 ENV SPORTRADAR_API_KEY a
 COPY --from=ts-builder ./app/dist ./dist

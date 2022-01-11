@@ -9,29 +9,13 @@ interface Season {
     year: number;
 }
 
-interface DefendingChamp {
+interface PlayerProfile {
     id: string;
     first_name: string;
     last_name: string;
     height: number;
     weight: number;
     birthday: string;
-    country: string;
-    residence: string;
-    birth_place: string;
-    college: string;
-    turned_pro: number;
-    handedness: string;
-    abbr_name: string;
-}
-
-interface Winner {
-    id: string;
-    first_name: string;
-    last_name: string;
-    height: number;
-    weight: number;
-    birthday: Date;
     country: string;
     residence: string;
     birth_place: string;
@@ -66,7 +50,9 @@ interface Venue {
     courses: Course[];
 }
 
-interface Tournament {
+export type TournamentStatus =  'scheduled' | 'inprogress' | 'closed';
+
+export interface TournamentBase {
     id: string;
     name: string;
     event_type: string;
@@ -77,12 +63,15 @@ interface Tournament {
     start_date: string;
     end_date: string;
     course_timezone: string;
+    status: TournamentStatus;
+}
+
+interface Tournament extends TournamentBase {
+    defending_champ: PlayerProfile;
+    winner: PlayerProfile;
+    venue: Venue;
     network: string;
     total_rounds: number;
-    status: string;
-    defending_champ: DefendingChamp;
-    winner: Winner;
-    venue: Venue;
 }
 
 export interface TournamentWithDates extends Omit<Tournament, 'start_date' | 'end_date'> {

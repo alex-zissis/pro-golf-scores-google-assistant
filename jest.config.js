@@ -2,7 +2,7 @@
 export default {
     preset: 'ts-jest',
     testEnvironment: 'node',
-    extensionsToTreatAsEsm: ['.ts'],
+    extensionsToTreatAsEsm: ['.ts', '.tsx', '.jsx'],
     globals: {
         'ts-jest': {
             useESM: true,
@@ -12,4 +12,5 @@ export default {
         '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     roots: ['./src'],
+    testMatch: [ "**/?(*.)+(spec|test).[jt]s?(x)" ]
 };
