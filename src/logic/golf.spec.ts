@@ -1,7 +1,7 @@
 import {LeaderboardEntry} from '../types/leaderboard';
-import {getReadableStringFromScore, getLeadersFromLeaderboard, getLeadersAsReadableString} from './golf';
+import {getLeadersFromLeaderboard} from './golf';
 
-const leaderboard: LeaderboardEntry[] = [
+export const leaderboard: LeaderboardEntry[] = [
     {
         id: 'a7041051-eb25-40b9-acb3-dab88cae69c0',
         first_name: 'Dustin',
@@ -204,22 +204,6 @@ const leaderboard: LeaderboardEntry[] = [
         ],
     },
 ];
-
-describe('Get voice readable string from score', () => {
-    test('it should correctly return a score under par', () => {
-        expect(getReadableStringFromScore(-5)).toEqual('<sub alias="five under">-5</sub>');
-        expect(getReadableStringFromScore(-26)).toEqual('<sub alias="twenty six under">-26</sub>');
-    });
-
-    test('it should correctly return a score over par', () => {
-        expect(getReadableStringFromScore(5)).toEqual('<sub alias="five over">+5</sub>');
-        expect(getReadableStringFromScore(26)).toEqual('<sub alias="twenty six over">+26</sub>');
-    });
-
-    test('it should correctly return a score of even par', () => {
-        expect(getReadableStringFromScore(0)).toEqual('<sub alias="even par">E</sub>');
-    });
-});
 
 describe('Get leaders from leaderboard', () => {
     test('Should get single leader if there is no tie', () => {
@@ -643,50 +627,5 @@ describe('Get leaders from leaderboard', () => {
                 ],
             },
         ]);
-    });
-});
-
-
-describe('Get readable string from leaders', () => {
-    test('Should get the single leader given a simple input', () => {
-        expect(
-            getLeadersAsReadableString([{first_name: 'Cameron', last_name: 'Smith', score: -34}], {
-                roundInProgress: 4,
-                anyRoundVariance: false,
-            })
-        ).toEqual(
-            `The leader is currently Cameron Smith at ${getReadableStringFromScore(
-                -34
-            )}, after the <say-as interpret-as="ordinal">4</say-as> round.`
-        );
-    });
-
-    test('Should get joint leaders given a simple input', () => {
-        expect(
-            getLeadersAsReadableString(
-                [
-                    {first_name: 'Cameron', last_name: 'Smith', score: -34},
-                    {first_name: 'John', last_name: 'Rahm', score: -34},
-                ],
-                {
-                    roundInProgress: 2,
-                    anyRoundVariance: true,
-                }
-            )
-        ).toEqual(
-            `Cameron Smith and John Rahm are the joint leaders at ${getReadableStringFromScore(
-                -34
-            )}, during the <say-as interpret-as="ordinal">2</say-as> round.`
-        );
-    });
-
-    test('Should get joint leaders given a complex input', () => {
-        expect(
-            getLeadersAsReadableString([leaderboard[0], leaderboard[1]], {anyRoundVariance: false, roundInProgress: 4})
-        ).toEqual(
-            `Dustin Johnson and Cameron Smith are the joint leaders at ${getReadableStringFromScore(
-                -20
-            )}, after the <say-as interpret-as="ordinal">4</say-as> round.`
-        );
     });
 });

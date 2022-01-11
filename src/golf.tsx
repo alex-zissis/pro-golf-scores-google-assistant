@@ -1,3 +1,5 @@
+/** @jsx ssml */
+import ssml from 'ssml-tsx';
 import {conversation, Table, Simple} from '@assistant/conversation';
 import dotenv from 'dotenv';
 import countries from 'i18n-iso-countries';
@@ -13,15 +15,12 @@ import {
     getScoreForDisplay,
 } from './utils.js';
 import {findClosestTournament} from './logic/tournament.js';
-import {
-    getLeadersAsReadableString,
-    getLeadersFromLeaderboard,
-    getReadableIntroductionFromTournament,
-} from './logic/golf.js';
 import {LeaderboardEntry} from './types/leaderboard';
-import {addSpeechTags} from './logic/speech-helpers';
+import {GetLeaderboardHandler} from './ssml/GetLeaderBoardHandler';
+
 // dotenv is only used in a localdev envrironment
 dotenv.config();
+const {renderToString} = ssml;
 
 const app = conversation({debug: process.env.NODE_ENV === 'development'});
 
@@ -51,7 +50,6 @@ app.handle('getLeaderboard', async (conv) => {
     const leaderboardResponse = await Tournament.getLeaderboard(currentTournament.id, currentTournament.year);
     const {leaderboard} = leaderboardResponse;
     const leaderboardForDisplay = leaderboard.slice(0, 10);
-    const leaders = getLeadersFromLeaderboard(leaderboard);
 
     const getHighestRoundPlayerHasStarted = (player: LeaderboardEntry) => {
         let highestRound = 0;
@@ -94,11 +92,12 @@ app.handle('getLeaderboard', async (conv) => {
         i++;
     }
 
-    const speech = addSpeechTags(
-        `${getReadableIntroductionFromTournament(leaderboardResponse)} ${getLeadersAsReadableString(leaders, {
-            roundInProgress,
-            anyRoundVariance,
-        })}`
+    const speech = (
+        renderToString(<GetLeaderboardHandler
+            leaderboardResponse={leaderboardResponse}
+            roundInProgress={roundInProgress}
+            anyRoundVariance={anyRoundVariance}
+        />)
     );
 
     conv.add(

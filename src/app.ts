@@ -1,9 +1,11 @@
 import express from 'express';
+import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import golf from './golf.js';
 
 const app = express();
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 
 app.post('/', golf);
 

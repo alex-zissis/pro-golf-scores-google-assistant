@@ -2,3 +2,5 @@ dist/
 node_modules/
 .cache/*.json
 .env
+
+yarn-error.log
