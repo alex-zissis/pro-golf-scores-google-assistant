@@ -1,6 +1,6 @@
 import {findClosestTournament} from '../tournament';
 import {TournamentFactory} from '../../helpers/factories';
-import scheduleMock from '../../../mocks/schedule/pga/2022.json';
+import scheduleMock from '../../mocks/schedule/pga/2022.json';
 import {mapTournamentToTournamentWithDates} from '../../mapper/tournament';
 import {Tournament} from '../../types/schedule';
 
@@ -92,9 +92,9 @@ describe('Find the closest tournament from the schedule, to a given date', () =>
         expect(twelthJan).toHaveProperty('name', 'Sentry Tournament of Champions');
         expect(twelthJan).toHaveProperty('start_date', new Date(Date.UTC(2022, 0, 6)));
 
-        // const thirteenthJan = findClosestTournament(tournaments, new Date(Date.UTC(2022, 0, 13)));
-        // expect(thirteenthJan).toHaveProperty('name', 'Sony Open in Hawaii');
-        // expect(thirteenthJan).toHaveProperty('start_date', new Date(Date.UTC(2022, 0, 13)));
-        // expect(thirteenthJan).toHaveProperty('defending_champ.abbr_name', 'K.Na');
+        const thirteenthJan = findClosestTournament(tournaments, new Date(Date.UTC(2022, 0, 13)));
+        expect(thirteenthJan).toHaveProperty('name', 'Sony Open in Hawaii');
+        expect(thirteenthJan).toHaveProperty('start_date', new Date(Date.UTC(2022, 0, 13)));
+        expect(thirteenthJan).toHaveProperty('defending_champ.abbr_name', 'K.Na');
     });
 });
