@@ -1,3 +1,5 @@
+import {TournamentBase} from './schedule';
+
 interface Tour {
     id: string;
     alias: string;
@@ -24,7 +26,7 @@ interface Round {
     sequence: number;
 }
 
-export interface Leaderboard {
+export interface LeaderboardEntry {
     id: string;
     first_name: string;
     last_name: string;
@@ -40,19 +42,8 @@ export interface Leaderboard {
     status?: string;
 }
 
-export interface LeaderboardResponse {
-    id: string;
-    name: string;
-    event_type: string;
-    purse: number;
-    winning_share: number;
-    currency: string;
-    points: number;
-    start_date: string;
-    end_date: string;
-    course_timezone: string;
-    status: string;
+export interface LeaderboardResponse extends TournamentBase {
     seasons: Season[];
     coverage: string;
-    leaderboard: Leaderboard[];
+    leaderboard: LeaderboardEntry[];
 }

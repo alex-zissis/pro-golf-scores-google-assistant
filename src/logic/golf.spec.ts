@@ -1,7 +1,7 @@
-import {Leaderboard} from '../types/leaderboard';
-import {getReadableStringFromScore, getLeadersFromLeaderboard} from './golf';
+import {LeaderboardEntry} from '../types/leaderboard';
+import {getReadableStringFromScore, getLeadersFromLeaderboard, getLeadersAsReadableString} from './golf';
 
-const leaderboard: Leaderboard[] = [
+const leaderboard: LeaderboardEntry[] = [
     {
         id: 'a7041051-eb25-40b9-acb3-dab88cae69c0',
         first_name: 'Dustin',
@@ -643,5 +643,50 @@ describe('Get leaders from leaderboard', () => {
                 ],
             },
         ]);
+    });
+});
+
+
+describe('Get readable string from leaders', () => {
+    test('Should get the single leader given a simple input', () => {
+        expect(
+            getLeadersAsReadableString([{first_name: 'Cameron', last_name: 'Smith', score: -34}], {
+                roundInProgress: 4,
+                anyRoundVariance: false,
+            })
+        ).toEqual(
+            `The leader is currently Cameron Smith at ${getReadableStringFromScore(
+                -34
+            )}, after the <say-as interpret-as="ordinal">4</say-as> round.`
+        );
+    });
+
+    test('Should get joint leaders given a simple input', () => {
+        expect(
+            getLeadersAsReadableString(
+                [
+                    {first_name: 'Cameron', last_name: 'Smith', score: -34},
+                    {first_name: 'John', last_name: 'Rahm', score: -34},
+                ],
+                {
+                    roundInProgress: 2,
+                    anyRoundVariance: true,
+                }
+            )
+        ).toEqual(
+            `Cameron Smith and John Rahm are the joint leaders at ${getReadableStringFromScore(
+                -34
+            )}, during the <say-as interpret-as="ordinal">2</say-as> round.`
+        );
+    });
+
+    test('Should get joint leaders given a complex input', () => {
+        expect(
+            getLeadersAsReadableString([leaderboard[0], leaderboard[1]], {anyRoundVariance: false, roundInProgress: 4})
+        ).toEqual(
+            `Dustin Johnson and Cameron Smith are the joint leaders at ${getReadableStringFromScore(
+                -20
+            )}, after the <say-as interpret-as="ordinal">4</say-as> round.`
+        );
     });
 });

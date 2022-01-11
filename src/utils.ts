@@ -1,5 +1,5 @@
 import {fileURLToPath} from 'url';
-import {Leaderboard, Round} from './types/leaderboard';
+import {LeaderboardEntry, Round} from './types/leaderboard';
 
 const dirname = fileURLToPath(import.meta.url);
 
@@ -44,7 +44,7 @@ const getScoreForDisplay = (score: number): string => {
     return score.toString();
 };
 
-const getPositionForDisplay = (player: Leaderboard, lastPlayer: Leaderboard) => {
+const getPositionForDisplay = (player: LeaderboardEntry, lastPlayer: LeaderboardEntry) => {
     if (!lastPlayer) {
         return player.position.toString();
     }
