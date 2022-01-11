@@ -1,5 +1,5 @@
 import {LeaderboardEntry, Round} from '../types/leaderboard';
-import {PlayerProfile, TournamentWithDates, Venue} from '../types/schedule';
+import {PlayerProfile, Tournament, TournamentWithDates, Venue} from '../types/schedule';
 
 type Factory<T> = {
     create: (input?: Partial<T>) => T;
@@ -55,11 +55,11 @@ const RoundFactory: Factory<Round> = {
     }),
 };
 
-const TournamentFactory: Factory<TournamentWithDates> = {
+const TournamentFactory: Factory<Tournament> = {
     create: (input) => ({
-        start_date: new Date(1970, 1, 1),
+        start_date: '1970-01-01',
         name: '',
-        end_date: new Date(1970, 1, 1),
+        end_date: '1970-01-01',
         course_timezone: '',
         currency: '',
         defending_champ: PlayerProfileFactory.create(),
@@ -77,6 +77,14 @@ const TournamentFactory: Factory<TournamentWithDates> = {
     }),
 };
 
+const TournamentWithDatesFactory: Factory<TournamentWithDates> = {
+    create: ({start_date, end_date, ...input}) => ({
+        ...TournamentFactory.create(input),
+        start_date: start_date ?? new Date(Date.UTC(1970, 1, 1)),
+        end_date: end_date ?? new Date(Date.UTC(1970, 1, 1)),
+    }),
+};
+
 const VenueFactory: Factory<Venue> = {
     create: (input) => ({
         city: '',
@@ -90,4 +98,4 @@ const VenueFactory: Factory<Venue> = {
     }),
 };
 
-export {LeaderboardEntryFactory, RoundFactory, PlayerProfileFactory, TournamentFactory, VenueFactory};
+export {LeaderboardEntryFactory, RoundFactory, PlayerProfileFactory, TournamentFactory, TournamentWithDatesFactory, VenueFactory};
