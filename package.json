@@ -43,7 +43,7 @@
         "build": "tsc",
         "postinstall": "patch-package",
         "start:dev": "NODE_ENV=development && nodemon -e tsx,ts --exec 'node -r @nextools/suppress-experimental-warnings --experimental-specifier-resolution=node --loader ts-node/esm' src/app.ts mock",
-        "start:prod": "node -r @nextools/suppress-experimental-warnings dist/src/app.js",
+        "start:prod": "node -r @nextools/suppress-experimental-warnings dist/app.js",
         "test": "node -r @nextools/suppress-experimental-warnings --experimental-vm-modules node_modules/jest/bin/jest.js"
     }
 }
