@@ -1,10 +1,9 @@
 /** @jsx ssml */
 import ssml, {FC} from 'ssml-tsx';
 import ordinal from 'ordinal';
-import pluralize from 'pluralize';
 import {LeaderboardEntry} from '../../types/leaderboard';
-import {joinArrayAsSentence} from '../../utils';
-import {GolfScore} from './GolfScore';
+import {joinArrayAsSentence} from '../../utils.js';
+import {GolfScore} from './GolfScore.js';
 
 interface TournamentLeaderProps {
     leaders: Pick<LeaderboardEntry, 'first_name' | 'last_name' | 'score'>[];

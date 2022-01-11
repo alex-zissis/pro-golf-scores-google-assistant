@@ -2,7 +2,8 @@
 import ssml, {FC} from 'ssml-tsx';
 import {getLeadersFromLeaderboard, isTournamentComplete} from '../logic/golf.js';
 import {LeaderboardResponse} from '../types/leaderboard';
-import {TournamentIntroduction, TournamentLeaders} from './components';
+import {TournamentIntroduction} from './components/TournamentIntroduction.js';
+import {TournamentLeaders} from './components/TournamentLeaders.js';
 
 interface GetLeaderboardHandlerProps {
     leaderboardResponse: LeaderboardResponse;

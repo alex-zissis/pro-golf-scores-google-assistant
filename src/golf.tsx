@@ -16,7 +16,7 @@ import {
 } from './utils.js';
 import {findClosestTournament} from './logic/tournament.js';
 import {LeaderboardEntry} from './types/leaderboard';
-import {GetLeaderboardHandler} from './ssml';
+import {GetLeaderboardHandler} from './ssml/GetLeaderboardHandler.js';
 
 // dotenv is only used in a localdev envrironment
 dotenv.config();
