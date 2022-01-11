@@ -1,1 +1,1 @@
-export {GetLeaderboardHandler} from './GetLeaderBoardHandler.js'
+export {GetLeaderboardHandler} from './GetLeaderboardHandler.js';

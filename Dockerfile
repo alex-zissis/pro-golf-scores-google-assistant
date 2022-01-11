@@ -4,7 +4,7 @@ COPY package.json .
 COPY yarn.lock .
 COPY tsconfig.json .
 COPY mocks ./mocks
-COPY patches .
+COPY patches ./patches
 COPY src ./src
 COPY jest.config.js .
 RUN yarn install
