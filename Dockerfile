@@ -17,6 +17,7 @@ FROM node:16-alpine AS prod-runtime
 WORKDIR /app
 ENV SPORTRADAR_API_KEY a
 COPY --from=ts-builder ./app/dist ./dist
+COPY --from=ts-builder ./app/patches ./patches
 COPY package.json .
 COPY yarn.lock .
 RUN yarn install --production
