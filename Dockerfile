@@ -20,5 +20,6 @@ COPY --from=ts-builder ./app/dist ./dist
 COPY package.json .
 COPY yarn.lock .
 RUN yarn install --production
+RUN yarn patch-package
 EXPOSE 3000
 ENTRYPOINT ["yarn", "start:prod"]
