@@ -12,4 +12,5 @@ export default {
         '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     roots: ['./src'],
+    testMatch: [ "**/?(*.)+(spec|test).[jt]s?(x)" ]
 };

@@ -2,8 +2,8 @@
 import ssml from 'ssml-tsx';
 import {GolfScore} from '../GolfScore';
 import {TournamentLeaders} from '../TournamentLeaders';
+import leaderboardMock from '../../../logic/__tests__/leaderboard.mock';
 const {renderToString} = ssml;
-import {leaderboard} from '../../../logic/golf.spec.js';
 
 describe('Get readable string from leaders', () => {
     test('Should get the single leader given a simple input', () => {
@@ -32,9 +32,7 @@ describe('Get readable string from leaders', () => {
                 />
             )
         ).toEqual(
-            `<p>The winner was Cameron Smith at ${renderToString(
-                <GolfScore score={-34} />
-            )}, after the 4th round.</p>`
+            `<p>The winner was Cameron Smith at ${renderToString(<GolfScore score={-34} />)}, after the 4th round.</p>`
         );
     });
 
@@ -79,7 +77,12 @@ describe('Get readable string from leaders', () => {
     test('Should get joint leaders given a complex input', () => {
         expect(
             renderToString(
-                <TournamentLeaders leaders={leaderboard.slice(0, 2)} anyRoundVariance={false} roundInProgress={4} isTournamentComplete={true} />
+                <TournamentLeaders
+                    leaders={leaderboardMock.slice(0, 2)}
+                    anyRoundVariance={false}
+                    roundInProgress={4}
+                    isTournamentComplete={true}
+                />
             )
         ).toEqual(
             `<p>Dustin Johnson and Cameron Smith were the joint winners at ${renderToString(
@@ -89,7 +92,12 @@ describe('Get readable string from leaders', () => {
 
         expect(
             renderToString(
-                <TournamentLeaders leaders={leaderboard.slice(0, 2)} anyRoundVariance={true} roundInProgress={3} isTournamentComplete={false} />
+                <TournamentLeaders
+                    leaders={leaderboardMock.slice(0, 2)}
+                    anyRoundVariance={true}
+                    roundInProgress={3}
+                    isTournamentComplete={false}
+                />
             )
         ).toEqual(
             `<p>Dustin Johnson and Cameron Smith are the joint leaders at ${renderToString(

@@ -22,13 +22,11 @@ function isTournament(ambigousTournament: any): ambigousTournament is Tournament
     return !!ambigousTournament.venue;
 }
 
-const isTournamentInFuture = ({status}: Pick<TournamentBase, 'status'>) => status === 'scheduled';
-const hasTournamentStarted = ({status}: Pick<TournamentBase, 'status'>) =>
-    isTournamentInProgress({status}) || isTournamentComplete({status});
-const isTournamentInProgress = ({status}: Pick<TournamentBase, 'status'>) => status === 'inprogress';
-const isTournamentComplete = (
-    tournament: Pick<Tournament, 'status'> | Pick<LeaderboardResponse, 'status' | 'leaderboard'>
-) => {
+const isTournamentInFuture = ({status}: TournamentBase) => status === 'scheduled';
+const hasTournamentStarted = (tournament: TournamentBase) =>
+    isTournamentInProgress(tournament) || isTournamentComplete(tournament);
+const isTournamentInProgress = ({status}: TournamentBase) => status === 'inprogress';
+const isTournamentComplete = (tournament: TournamentBase) => {
     if (tournament.status === 'closed') {
         return true;
     }
