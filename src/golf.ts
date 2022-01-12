@@ -3,8 +3,9 @@ import dotenv from 'dotenv';
 import {getLeaderboard} from './handlers/getLeaderboard.js';
 import {isDevelopment} from './utils.js';
 
-// dotenv is only used in a localdev envrironment
-dotenv.config();
+if (isDevelopment()) {
+    dotenv.config();
+}
 
 const app = conversation({debug: isDevelopment()});
 

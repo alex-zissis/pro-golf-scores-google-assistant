@@ -21,8 +21,8 @@ describe('Health check', () => {
     });
 });
 
-describe('fetch-mock test', () => {
-    it('check fetch mock test', async () => {
+describe('Get leaderboard handler', () => {
+    it('should return a valid and correct ConversationResponse', async () => {
         jest.spyOn(cache, 'readCache').mockImplementation(async function (cacheKey: CacheKeys) {
             return {
                 expiresUtc: new Date(Date.UTC(2025, 1, 1)).toISOString(),
