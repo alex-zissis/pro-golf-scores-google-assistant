@@ -65,6 +65,10 @@ function getFlagEmoji(countryCode: string) {
     return String.fromCodePoint(...codePoints);
 }
 
+const isDevelopment = () => process.env.NODE_ENV === 'development';
+const isTest = () => process.env.NODE_ENV === 'test';
+const isProduction = () => process.env.NODE_ENV === 'production';
+
 export {
     addHoursToDate,
     getPositionForDisplay,
@@ -73,4 +77,7 @@ export {
     joinArrayAsSentence,
     getFlagEmoji,
     dirname,
+    isDevelopment,
+    isTest,
+    isProduction,
 };

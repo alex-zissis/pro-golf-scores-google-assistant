@@ -52,4 +52,8 @@ function invalidateCache(cacheKey: CacheKeys): Promise<void> {
     return fs.rm(path.resolve(CacheDir, cacheKey));
 }
 
-export {readCache, writeCache, CacheKeys};
+export {CacheKeys};
+
+export default {
+    readCache, writeCache
+}

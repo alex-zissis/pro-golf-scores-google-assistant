@@ -1,7 +1,7 @@
 import {findClosestTournament} from '../tournament';
 import {TournamentWithDatesFactory} from '../../helpers/factories';
 import scheduleMock from '../../mocks/schedule/pga/2022.json';
-import {mapTournamentToTournamentWithDates} from '../../mapper/tournament';
+import {mapTournamentToTournamentWithDates} from '../../mappers/tournament';
 import {Tournament} from '../../types/schedule';
 
 describe('Find the closest tournament from the schedule, to a given date', () => {

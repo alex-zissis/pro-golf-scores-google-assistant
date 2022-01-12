@@ -14,7 +14,7 @@ interface TournamentIntroductionProps {
 const FutureTournamentIntroduction: FC<TournamentIntroductionProps> = ({tournament}) => (
     <p>
         The {tournament.name} is an upcoming event scheduled to begin{' '}
-        <say-as interpret-as="date" format="y-m-d">
+        <say-as interpret-as="date" format="ymd">
             {tournament.start_date}
         </say-as>
         {addTournamentVenueSuffixIfApplicable(tournament)}
@@ -24,7 +24,7 @@ const FutureTournamentIntroduction: FC<TournamentIntroductionProps> = ({tourname
 const CompletedTournamentIntroduction: FC<TournamentIntroductionProps> = ({tournament}) => (
     <p>
         The {tournament.name} finished on{' '}
-        <say-as interpret-as="date" format="y-m-d">
+        <say-as interpret-as="date" format="ymd">
             {tournament.end_date}
         </say-as>
         {addTournamentVenueSuffixIfApplicable(tournament, ' and was played at ')}

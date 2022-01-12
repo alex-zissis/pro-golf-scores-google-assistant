@@ -1,34 +1,29 @@
 /** @jsx ssml */
+import {ConversationV3, Simple, Table} from '@assistant/conversation';
+import {ConversationV3Handler} from '@assistant/conversation/dist/conversation';
 import ssml from 'ssml-tsx';
-import {conversation, Table, Simple} from '@assistant/conversation';
-import dotenv from 'dotenv';
 import countries from 'i18n-iso-countries';
-import {CurrentTournament} from './types/cache';
-import {CacheKeys, readCache, writeCache} from './cache.js';
-import {Schedule, Tournament} from './api.js';
-import {mapTournamentToTournamentWithDates} from './mapper/tournament.js';
+import {Schedule, Tournament} from '../api.js';
+import cache, {CacheKeys} from '../cache';
+import {getCurrentRound} from '../logic/golf.js';
+import {findClosestTournament} from '../logic/tournament.js';
+import {mapTournamentToTournamentWithDates} from '../mappers/tournament.js';
 import {
     addHoursToDate,
     getFlagEmoji,
     getPositionForDisplay,
     getRoundScoreForDisplay,
     getScoreForDisplay,
-} from './utils.js';
-import {findClosestTournament} from './logic/tournament.js';
-import {GetLeaderboardHandler} from './ssml/GetLeaderboardHandler.js';
-import {getCurrentRound} from './logic/golf.js';
-
-// dotenv is only used in a localdev envrironment
-dotenv.config();
+} from '../utils.js';
+import {GetLeaderboardHandler} from '../ssml/GetLeaderboardHandler.js';
+import {CurrentTournament} from '../types/cache.js';
 const {renderToString} = ssml;
 
-const app = conversation({debug: process.env.NODE_ENV === 'development'});
-
-app.handle('getLeaderboard', async (conv) => {
-    let currentTournament = await readCache<CurrentTournament>(CacheKeys.CurrentTournament);
+const getLeaderboard: ConversationV3Handler<ConversationV3> = async (conv) => {
+    let currentTournament = await cache.readCache<CurrentTournament>(CacheKeys.CurrentTournament);
 
     if (!currentTournament) {
-        const scheduleResponse = await Schedule.getSchedule({});
+        const scheduleResponse = await Schedule.getSchedule();
 
         const tournamentsWithDates = mapTournamentToTournamentWithDates(scheduleResponse.tournaments);
         const today = new Date();
@@ -44,7 +39,7 @@ app.handle('getLeaderboard', async (conv) => {
             year: scheduleResponse.season.year,
         };
 
-        await writeCache(CacheKeys.CurrentTournament, currentTournament);
+        await cache.writeCache(CacheKeys.CurrentTournament, currentTournament);
     }
 
     const leaderboardResponse = await Tournament.getLeaderboard(currentTournament.id, currentTournament.year);
@@ -91,6 +86,6 @@ app.handle('getLeaderboard', async (conv) => {
             ],
         })
     );
-});
+};
 
-export default app;
+export {getLeaderboard};

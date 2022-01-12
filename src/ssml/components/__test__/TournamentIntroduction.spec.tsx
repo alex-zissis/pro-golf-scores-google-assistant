@@ -5,8 +5,8 @@ import {TournamentIntroduction} from '../TournamentIntroduction';
 const {renderToString} = ssml;
 
 describe('Get readable tournament introduction', () => {
-    test('it should get the introduction for a completed event', () => {
-        expect(
+    test('it should get the introduction for a completed event', async () => {
+        await expect(
             renderToString(
                 <TournamentIntroduction
                     tournament={TournamentFactory.create({
@@ -17,9 +17,12 @@ describe('Get readable tournament introduction', () => {
                     })}
                 />
             )
-        ).toEqual(`<p>The a finished on <say-as interpret-as="date" format="y-m-d">2021-06-01</say-as>.</p>`);
+        ).toBeValidSSMLAndEqual(
+            `<p>The a finished on <say-as interpret-as="date" format="ymd">2021-06-01</say-as>.</p>`,
+            true
+        );
 
-        expect(
+        await expect(
             renderToString(
                 <TournamentIntroduction
                     tournament={TournamentFactory.create({
@@ -30,13 +33,14 @@ describe('Get readable tournament introduction', () => {
                     })}
                 />
             )
-        ).toEqual(
-            `<p>The a finished on <say-as interpret-as="date" format="y-m-d">2021-06-01</say-as> and was played at Quail Hollow Club.</p>`
+        ).toBeValidSSMLAndEqual(
+            `<p>The a finished on <say-as interpret-as="date" format="ymd">2021-06-01</say-as> and was played at Quail Hollow Club.</p>`,
+            true
         );
     });
 
-    test('it should get the introduction for an in-progress event', () => {
-        expect(
+    test('it should get the introduction for an in-progress event', async () => {
+        await expect(
             renderToString(
                 <TournamentIntroduction
                     tournament={TournamentFactory.create({
@@ -46,9 +50,9 @@ describe('Get readable tournament introduction', () => {
                     })}
                 />
             )
-        ).toEqual(`<p>The a is currently underway.</p>`);
+        ).toBeValidSSMLAndEqual(`<p>The a is currently underway.</p>`, true);
 
-        expect(
+        await expect(
             renderToString(
                 <TournamentIntroduction
                     tournament={TournamentFactory.create({
@@ -58,11 +62,11 @@ describe('Get readable tournament introduction', () => {
                     })}
                 />
             )
-        ).toEqual(`<p>The a is currently underway at Quail Hollow Club.</p>`);
+        ).toBeValidSSMLAndEqual(`<p>The a is currently underway at Quail Hollow Club.</p>`, true);
     });
 
-    test('it should get the introduction for an upcoming event', () => {
-        expect(
+    test('it should get the introduction for an upcoming event', async () => {
+        await expect(
             renderToString(
                 <TournamentIntroduction
                     tournament={TournamentFactory.create({
@@ -73,11 +77,12 @@ describe('Get readable tournament introduction', () => {
                     })}
                 />
             )
-        ).toEqual(
-            `<p>The a is an upcoming event scheduled to begin <say-as interpret-as="date" format="y-m-d">2021-06-01</say-as>.</p>`
+        ).toBeValidSSMLAndEqual(
+            `<p>The a is an upcoming event scheduled to begin <say-as interpret-as="date" format="ymd">2021-06-01</say-as>.</p>`,
+            true
         );
 
-        expect(
+        await expect(
             renderToString(
                 <TournamentIntroduction
                     tournament={TournamentFactory.create({
@@ -88,8 +93,9 @@ describe('Get readable tournament introduction', () => {
                     })}
                 />
             )
-        ).toEqual(
-            `<p>The a is an upcoming event scheduled to begin <say-as interpret-as="date" format="y-m-d">2021-06-01</say-as> at Quail Hollow Club.</p>`
+        ).toBeValidSSMLAndEqual(
+            `<p>The a is an upcoming event scheduled to begin <say-as interpret-as="date" format="ymd">2021-06-01</say-as> at Quail Hollow Club.</p>`,
+            true
         );
     });
 });
