@@ -1,5 +1,4 @@
 import {TournamentWithDates} from '../types/schedule';
-import {addHoursToDate} from '../utils.js';
 
 const findClosestTournament = (tournaments: TournamentWithDates[], referenceDate: Date): TournamentWithDates => {
     let i = 0;
