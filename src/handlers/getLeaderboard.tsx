@@ -4,7 +4,7 @@ import {ConversationV3Handler} from '@assistant/conversation/dist/conversation';
 import ssml from 'ssml-tsx';
 import countries from 'i18n-iso-countries';
 import {Schedule, Tournament} from '../api.js';
-import cache, {CacheKeys} from '../cache';
+import cache, {CacheKeys} from '../cache.js';
 import {getCurrentRound} from '../logic/golf.js';
 import {findClosestTournament} from '../logic/tournament.js';
 import {mapTournamentToTournamentWithDates} from '../mappers/tournament.js';
