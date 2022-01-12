@@ -9,16 +9,3 @@ index 9076036..139d708 100644
 +
 +module.exports = ssml;
 \ No newline at end of file
-diff --git a/node_modules/ssml-tsx/dist/jsx.d.ts b/node_modules/ssml-tsx/dist/jsx.d.ts
-index b5265ac..9c2bced 100644
---- a/node_modules/ssml-tsx/dist/jsx.d.ts
-+++ b/node_modules/ssml-tsx/dist/jsx.d.ts
-@@ -42,7 +42,7 @@ declare global {
-             s: ElementWithChildren<unknown>;
-             "say-as": ElementWithChildren<{
-                 "interpret-as": "characters" | "spell-out" | "cardinal" | "number" | "ordinal" | "digits" | "fraction" | "unit" | "date" | "time" | "telephone" | "address" | "interjection" | "expletive";
--                format?: "mdy" | "dmy" | "ymd" | "md" | "dm" | "ym" | "my" | "d" | "m" | "y";
-+                format?: "mdy" | "dmy" | "ymd" | "md" | "dm" | "ym" | "my" | "d" | "m" | "y" | "y-m-d";
-             }>;
-             speak: ElementWithChildren<unknown>;
-             sub: ElementWithChildren<{

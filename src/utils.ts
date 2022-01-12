@@ -60,11 +60,14 @@ function getFlagEmoji(countryCode: string) {
     const codePoints = countryCode
         .toUpperCase()
         .split('')
-        // @ts-ignore
-        .map((char) => 127397 + char.charCodeAt());
+        .map((char) => 127397 + char.charCodeAt(0));
 
     return String.fromCodePoint(...codePoints);
 }
+
+const isDevelopment = () => process.env.NODE_ENV === 'development';
+const isTest = () => process.env.NODE_ENV === 'test';
+const isProduction = () => process.env.NODE_ENV === 'production';
 
 export {
     addHoursToDate,
@@ -74,4 +77,7 @@ export {
     joinArrayAsSentence,
     getFlagEmoji,
     dirname,
+    isDevelopment,
+    isTest,
+    isProduction,
 };

@@ -6,103 +6,109 @@ import leaderboardMock from '../../../logic/__tests__/leaderboard.mock';
 const {renderToString} = ssml;
 
 describe('Get readable string from leaders', () => {
-    test('Should get the single leader given a simple input', () => {
-        expect(
+    test('Should get the single leader given a simple input', async () => {
+        await expect(
             renderToString(
                 <TournamentLeaders
                     leaders={[{first_name: 'Cameron', last_name: 'Smith', score: -34}]}
-                    roundInProgress={4}
-                    anyRoundVariance={false}
+                    currentRound={4}
+                    roundStatus="closed"
                     isTournamentComplete={false}
                 />
             )
-        ).toEqual(
+        ).toBeValidSSMLAndEqual(
             `<p>The leader is currently Cameron Smith at ${renderToString(
                 <GolfScore score={-34} />
-            )}, after the 4th round.</p>`
+            )}, after the 4th round.</p>`,
+            true
         );
 
-        expect(
+        await expect(
             renderToString(
                 <TournamentLeaders
                     leaders={[{first_name: 'Cameron', last_name: 'Smith', score: -34}]}
-                    roundInProgress={4}
-                    anyRoundVariance={false}
+                    currentRound={4}
+                    roundStatus="closed"
                     isTournamentComplete={true}
                 />
             )
-        ).toEqual(
-            `<p>The winner was Cameron Smith at ${renderToString(<GolfScore score={-34} />)}, after the 4th round.</p>`
+        ).toBeValidSSMLAndEqual(
+            `<p>The winner was Cameron Smith at ${renderToString(<GolfScore score={-34} />)}, after the 4th round.</p>`,
+            true
         );
     });
 
-    test('Should get joint leaders given a simple input', () => {
-        expect(
+    test('Should get joint leaders given a simple input', async () => {
+        await expect(
             renderToString(
                 <TournamentLeaders
                     leaders={[
                         {first_name: 'Cameron', last_name: 'Smith', score: -34},
                         {first_name: 'John', last_name: 'Rahm', score: -34},
                     ]}
-                    roundInProgress={2}
-                    anyRoundVariance={true}
+                    currentRound={2}
+                    roundStatus="inprogress"
                     isTournamentComplete={false}
                 />
             )
-        ).toEqual(
+        ).toBeValidSSMLAndEqual(
             `<p>Cameron Smith and John Rahm are the joint leaders at ${renderToString(
                 <GolfScore score={-34} />
-            )}, during the 2nd round.</p>`
+            )}, during the 2nd round.</p>`,
+            true
         );
 
-        expect(
+        await expect(
             renderToString(
                 <TournamentLeaders
                     leaders={[
                         {first_name: 'Cameron', last_name: 'Smith', score: -34},
                         {first_name: 'John', last_name: 'Rahm', score: -34},
                     ]}
-                    roundInProgress={4}
-                    anyRoundVariance={false}
+                    currentRound={4}
+                    roundStatus="closed"
                     isTournamentComplete={true}
                 />
             )
-        ).toEqual(
+        ).toBeValidSSMLAndEqual(
             `<p>Cameron Smith and John Rahm were the joint winners at ${renderToString(
                 <GolfScore score={-34} />
-            )}, after the 4th round.</p>`
+            )}, after the 4th round.</p>`,
+            true
         );
     });
 
-    test('Should get joint leaders given a complex input', () => {
-        expect(
+    test('Should get joint leaders given a complex input', async () => {
+        await expect(
             renderToString(
                 <TournamentLeaders
                     leaders={leaderboardMock.slice(0, 2)}
-                    anyRoundVariance={false}
-                    roundInProgress={4}
+                    currentRound={4}
+                    roundStatus="closed"
                     isTournamentComplete={true}
                 />
             )
-        ).toEqual(
+        ).toBeValidSSMLAndEqual(
             `<p>Dustin Johnson and Cameron Smith were the joint winners at ${renderToString(
                 <GolfScore score={-20} />
-            )}, after the 4th round.</p>`
+            )}, after the 4th round.</p>`,
+            true
         );
 
-        expect(
+        await expect(
             renderToString(
                 <TournamentLeaders
                     leaders={leaderboardMock.slice(0, 2)}
-                    anyRoundVariance={true}
-                    roundInProgress={3}
+                    currentRound={3}
+                    roundStatus="inprogress"
                     isTournamentComplete={false}
                 />
             )
-        ).toEqual(
+        ).toBeValidSSMLAndEqual(
             `<p>Dustin Johnson and Cameron Smith are the joint leaders at ${renderToString(
                 <GolfScore score={-20} />
-            )}, during the 3rd round.</p>`
+            )}, during the 3rd round.</p>`,
+            true
         );
     });
 });

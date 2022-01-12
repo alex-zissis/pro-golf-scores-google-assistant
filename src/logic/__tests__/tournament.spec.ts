@@ -1,7 +1,7 @@
 import {findClosestTournament} from '../tournament';
-import {TournamentFactory} from '../../helpers/factories';
+import {TournamentWithDatesFactory} from '../../helpers/factories';
 import scheduleMock from '../../mocks/schedule/pga/2022.json';
-import {mapTournamentToTournamentWithDates} from '../../mapper/tournament';
+import {mapTournamentToTournamentWithDates} from '../../mappers/tournament';
 import {Tournament} from '../../types/schedule';
 
 describe('Find the closest tournament from the schedule, to a given date', () => {
@@ -9,9 +9,9 @@ describe('Find the closest tournament from the schedule, to a given date', () =>
         expect(
             findClosestTournament(
                 [
-                    TournamentFactory.create({name: 'a', start_date: new Date(Date.UTC(2022, 2, 7))}),
-                    TournamentFactory.create({name: 'b', start_date: new Date(Date.UTC(2022, 3, 7))}),
-                    TournamentFactory.create({name: 'c', start_date: new Date(Date.UTC(2022, 4, 7))}),
+                    TournamentWithDatesFactory.create({name: 'a', start_date: new Date(Date.UTC(2022, 2, 7))}),
+                    TournamentWithDatesFactory.create({name: 'b', start_date: new Date(Date.UTC(2022, 3, 7))}),
+                    TournamentWithDatesFactory.create({name: 'c', start_date: new Date(Date.UTC(2022, 4, 7))}),
                 ],
                 new Date(Date.UTC(2022, 3, 10))
             )
@@ -20,8 +20,8 @@ describe('Find the closest tournament from the schedule, to a given date', () =>
         expect(
             findClosestTournament(
                 [
-                    TournamentFactory.create({name: 'a', start_date: new Date(Date.UTC(2022, 3, 6))}),
-                    TournamentFactory.create({name: 'b', start_date: new Date(Date.UTC(2022, 3, 7))}),
+                    TournamentWithDatesFactory.create({name: 'a', start_date: new Date(Date.UTC(2022, 3, 6))}),
+                    TournamentWithDatesFactory.create({name: 'b', start_date: new Date(Date.UTC(2022, 3, 7))}),
                 ],
                 new Date(Date.UTC(2022, 3, 8))
             )
@@ -32,9 +32,9 @@ describe('Find the closest tournament from the schedule, to a given date', () =>
         expect(
             findClosestTournament(
                 [
-                    TournamentFactory.create({name: 'a', start_date: new Date(Date.UTC(2022, 3, 6))}),
-                    TournamentFactory.create({name: 'b', start_date: new Date(Date.UTC(2022, 3, 7))}),
-                    TournamentFactory.create({name: 'c', start_date: new Date(Date.UTC(2022, 3, 8))}),
+                    TournamentWithDatesFactory.create({name: 'a', start_date: new Date(Date.UTC(2022, 3, 6))}),
+                    TournamentWithDatesFactory.create({name: 'b', start_date: new Date(Date.UTC(2022, 3, 7))}),
+                    TournamentWithDatesFactory.create({name: 'c', start_date: new Date(Date.UTC(2022, 3, 8))}),
                 ],
                 new Date(Date.UTC(2022, 3, 7))
             )
@@ -43,9 +43,9 @@ describe('Find the closest tournament from the schedule, to a given date', () =>
         expect(
             findClosestTournament(
                 [
-                    TournamentFactory.create({name: 'a', start_date: new Date(Date.UTC(2022, 3, 6))}),
-                    TournamentFactory.create({name: 'b', start_date: new Date(Date.UTC(2022, 3, 7, 23, 59))}),
-                    TournamentFactory.create({name: 'c', start_date: new Date(Date.UTC(2022, 3, 8))}),
+                    TournamentWithDatesFactory.create({name: 'a', start_date: new Date(Date.UTC(2022, 3, 6))}),
+                    TournamentWithDatesFactory.create({name: 'b', start_date: new Date(Date.UTC(2022, 3, 7, 23, 59))}),
+                    TournamentWithDatesFactory.create({name: 'c', start_date: new Date(Date.UTC(2022, 3, 8))}),
                 ],
                 new Date(Date.UTC(2022, 3, 7))
             )
@@ -56,9 +56,9 @@ describe('Find the closest tournament from the schedule, to a given date', () =>
         expect(
             findClosestTournament(
                 [
-                    TournamentFactory.create({name: 'a', start_date: new Date(Date.UTC(2022, 3, 6))}),
-                    TournamentFactory.create({name: 'b', start_date: new Date(Date.UTC(2022, 3, 7))}),
-                    TournamentFactory.create({name: 'c', start_date: new Date(Date.UTC(2022, 3, 8))}),
+                    TournamentWithDatesFactory.create({name: 'a', start_date: new Date(Date.UTC(2022, 3, 6))}),
+                    TournamentWithDatesFactory.create({name: 'b', start_date: new Date(Date.UTC(2022, 3, 7))}),
+                    TournamentWithDatesFactory.create({name: 'c', start_date: new Date(Date.UTC(2022, 3, 8))}),
                 ],
                 new Date(Date.UTC(2021, 3, 7))
             )
@@ -69,9 +69,9 @@ describe('Find the closest tournament from the schedule, to a given date', () =>
         expect(
             findClosestTournament(
                 [
-                    TournamentFactory.create({name: 'a', start_date: new Date(Date.UTC(2021, 3, 6))}),
-                    TournamentFactory.create({name: 'b', start_date: new Date(Date.UTC(2021, 3, 7))}),
-                    TournamentFactory.create({name: 'c', start_date: new Date(Date.UTC(2021, 3, 8))}),
+                    TournamentWithDatesFactory.create({name: 'a', start_date: new Date(Date.UTC(2021, 3, 6))}),
+                    TournamentWithDatesFactory.create({name: 'b', start_date: new Date(Date.UTC(2021, 3, 7))}),
+                    TournamentWithDatesFactory.create({name: 'c', start_date: new Date(Date.UTC(2021, 3, 8))}),
                 ],
                 new Date(Date.UTC(2022, 3, 7))
             )

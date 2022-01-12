@@ -1,0 +1,44 @@
+{
+    "handler": {
+        "name": "getLeaderboard"
+    },
+    "intent": {
+        "name": "actions.intent.MAIN",
+        "params": {},
+        "query": "Talk to Golf scores"
+    },
+    "scene": {
+        "name": "actions.scene.START_CONVERSATION",
+        "slotFillingStatus": "UNSPECIFIED",
+        "slots": {},
+        "next": {
+            "name": "actions.scene.END_CONVERSATION"
+        }
+    },
+    "session": {
+        "id": "ABwppHE9mWCywqanPI8CtQiZERtkfYY92EgU9PE2k1aPMc4PfiHcRq36Js9AWN5g1PzKQ7vSR4TN-IaPjg",
+        "params": {},
+        "typeOverrides": [],
+        "languageCode": ""
+    },
+    "user": {
+        "locale": "en-AU",
+        "params": {},
+        "accountLinkingStatus": "ACCOUNT_LINKING_STATUS_UNSPECIFIED",
+        "verificationStatus": "VERIFIED",
+        "packageEntitlements": [],
+        "gaiamint": "",
+        "permissions": [],
+        "lastSeenTime": "2022-01-12T09:20:50Z"
+    },
+    "home": {
+        "params": {}
+    },
+    "device": {
+        "capabilities": ["SPEECH", "RICH_RESPONSE", "LONG_FORM_AUDIO"],
+        "timeZone": {
+            "id": "Australia/Sydney",
+            "version": ""
+        }
+    }
+}
