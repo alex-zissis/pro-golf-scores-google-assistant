@@ -18,4 +18,8 @@ jobs:
           docker build -t pro-golf-scores:latest . --target test
           docker build -t pro-golf-scores:latest .
           docker run  -d -p 10000:3000 pro-golf-scores:latest
-          curl localhost:10000/health
+      - name: Perform healthcheck
+        run: |
+          sleep 5
+          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" localhost:10000/health)
+          if [ $STATUS_CODE -ne "200" ]; then echo "Healthcheck failed with code: $STATUS_CODE"; exit 1; fi
