@@ -1,7 +1,7 @@
 {
     "name": "pro-golf-scores-google-assistant",
     "author": "Alex Zissis <alex@zico.dev>",
-    "description": "A Google assistance action for pro-golf scores",
+    "description": "A Google Assistant action for professional golf scores",
     "version": "0.0.1",
     "engines": {
         "node": ">=16"
