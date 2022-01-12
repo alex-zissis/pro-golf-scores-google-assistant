@@ -11,8 +11,8 @@ describe('Get readable string from leaders', () => {
             renderToString(
                 <TournamentLeaders
                     leaders={[{first_name: 'Cameron', last_name: 'Smith', score: -34}]}
-                    roundInProgress={4}
-                    anyRoundVariance={false}
+                    currentRound={4}
+                    roundStatus="closed"
                     isTournamentComplete={false}
                 />
             )
@@ -26,8 +26,8 @@ describe('Get readable string from leaders', () => {
             renderToString(
                 <TournamentLeaders
                     leaders={[{first_name: 'Cameron', last_name: 'Smith', score: -34}]}
-                    roundInProgress={4}
-                    anyRoundVariance={false}
+                    currentRound={4}
+                    roundStatus="closed"
                     isTournamentComplete={true}
                 />
             )
@@ -44,8 +44,8 @@ describe('Get readable string from leaders', () => {
                         {first_name: 'Cameron', last_name: 'Smith', score: -34},
                         {first_name: 'John', last_name: 'Rahm', score: -34},
                     ]}
-                    roundInProgress={2}
-                    anyRoundVariance={true}
+                    currentRound={2}
+                    roundStatus="inprogress"
                     isTournamentComplete={false}
                 />
             )
@@ -62,8 +62,8 @@ describe('Get readable string from leaders', () => {
                         {first_name: 'Cameron', last_name: 'Smith', score: -34},
                         {first_name: 'John', last_name: 'Rahm', score: -34},
                     ]}
-                    roundInProgress={4}
-                    anyRoundVariance={false}
+                    currentRound={4}
+                    roundStatus="closed"
                     isTournamentComplete={true}
                 />
             )
@@ -79,8 +79,8 @@ describe('Get readable string from leaders', () => {
             renderToString(
                 <TournamentLeaders
                     leaders={leaderboardMock.slice(0, 2)}
-                    anyRoundVariance={false}
-                    roundInProgress={4}
+                    currentRound={4}
+                    roundStatus="closed"
                     isTournamentComplete={true}
                 />
             )
@@ -94,8 +94,8 @@ describe('Get readable string from leaders', () => {
             renderToString(
                 <TournamentLeaders
                     leaders={leaderboardMock.slice(0, 2)}
-                    anyRoundVariance={true}
-                    roundInProgress={3}
+                    currentRound={3}
+                    roundStatus="inprogress"
                     isTournamentComplete={false}
                 />
             )

@@ -1,8 +1,18 @@
-import {LeaderboardEntry, Round} from '../types/leaderboard';
+import {LeaderboardEntry, LeaderboardResponse, Round} from '../types/leaderboard';
 import {PlayerProfile, Tournament, TournamentWithDates, Venue} from '../types/schedule';
 
 type Factory<T> = {
     create: (input?: Partial<T>) => T;
+};
+
+const LeaderboardResponseFactory: Factory<LeaderboardResponse> = {
+    create: (input) => ({
+        ...TournamentFactory.create(input),
+        seasons: [],
+        coverage: '',
+        leaderboard: [],
+        ...input,
+    }),
 };
 
 const LeaderboardEntryFactory: Factory<LeaderboardEntry> = {
@@ -98,4 +108,12 @@ const VenueFactory: Factory<Venue> = {
     }),
 };
 
-export {LeaderboardEntryFactory, RoundFactory, PlayerProfileFactory, TournamentFactory, TournamentWithDatesFactory, VenueFactory};
+export {
+    LeaderboardResponseFactory,
+    LeaderboardEntryFactory,
+    RoundFactory,
+    PlayerProfileFactory,
+    TournamentFactory,
+    TournamentWithDatesFactory,
+    VenueFactory,
+};

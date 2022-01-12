@@ -15,8 +15,8 @@ import {
     getScoreForDisplay,
 } from './utils.js';
 import {findClosestTournament} from './logic/tournament.js';
-import {LeaderboardEntry} from './types/leaderboard';
 import {GetLeaderboardHandler} from './ssml/GetLeaderboardHandler.js';
+import {getCurrentRound} from './logic/golf.js';
 
 // dotenv is only used in a localdev envrironment
 dotenv.config();
@@ -49,55 +49,15 @@ app.handle('getLeaderboard', async (conv) => {
 
     const leaderboardResponse = await Tournament.getLeaderboard(currentTournament.id, currentTournament.year);
     const {leaderboard} = leaderboardResponse;
+    const {currentRound, status} = getCurrentRound(leaderboard);
     const leaderboardForDisplay = leaderboard.slice(0, 10);
 
-    const getHighestRoundPlayerHasStarted = (player: LeaderboardEntry) => {
-        let highestRound = 0;
-        for (const round of player.rounds) {
-            if (round.thru > 0) {
-                highestRound = round.sequence;
-            } else {
-                break;
-            }
-        }
-
-        return highestRound;
-    };
-
-    let roundInProgress = 1;
-    let i = 0;
-    let anyRoundVariance = false;
-    for (const player of leaderboard) {
-        const highestRound = getHighestRoundPlayerHasStarted(player);
-
-        // If anyone is in the 4th round, then that round is in progress.
-        if (highestRound === 4) {
-            roundInProgress = highestRound;
-            break;
-        }
-
-        // if one person is in round 3 and anyone we find has not started round 3, round 3 must be in progress.
-        if (i > 0 && roundInProgress < highestRound) {
-            break;
-        }
-
-        if (highestRound > roundInProgress) {
-            roundInProgress = highestRound;
-        }
-
-        if (i > 0 && highestRound !== roundInProgress) {
-            anyRoundVariance = true;
-        }
-
-        i++;
-    }
-
-    const speech = (
-        renderToString(<GetLeaderboardHandler
+    const speech = renderToString(
+        <GetLeaderboardHandler
             leaderboardResponse={leaderboardResponse}
-            roundInProgress={roundInProgress}
-            anyRoundVariance={anyRoundVariance}
-        />)
+            currentRound={currentRound}
+            roundStatus={status}
+        />
     );
 
     conv.add(
@@ -108,13 +68,13 @@ app.handle('getLeaderboard', async (conv) => {
 
     conv.add(
         new Table({
-            title: currentTournament.name,
+            title: leaderboardResponse.name,
             columns: [
                 {header: '#'},
                 {header: 'Name'},
                 {header: 'Nation'},
                 {header: 'Total'},
-                {header: `R${roundInProgress}`},
+                {header: `R${currentRound}`},
             ],
             rows: [
                 ...leaderboardForDisplay.map((player, i) => {
@@ -124,7 +84,7 @@ app.handle('getLeaderboard', async (conv) => {
                             {text: `${player.first_name} ${player.last_name}`},
                             {text: getFlagEmoji(countries.getAlpha2Code(player.country, 'en'))},
                             {text: getScoreForDisplay(player.score)},
-                            {text: getRoundScoreForDisplay(player.rounds[roundInProgress - 1])},
+                            {text: getRoundScoreForDisplay(player.rounds[currentRound - 1])},
                         ],
                     };
                 }),

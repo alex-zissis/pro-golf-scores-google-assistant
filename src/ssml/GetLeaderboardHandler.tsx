@@ -2,26 +2,27 @@
 import ssml, {FC} from 'ssml-tsx';
 import {getLeadersFromLeaderboard, isTournamentComplete} from '../logic/golf.js';
 import {LeaderboardResponse} from '../types/leaderboard';
+import {TournamentStatus} from '../types/schedule';
 import {TournamentIntroduction} from './components/TournamentIntroduction.js';
 import {TournamentLeaders} from './components/TournamentLeaders.js';
 
 interface GetLeaderboardHandlerProps {
     leaderboardResponse: LeaderboardResponse;
-    roundInProgress: number;
-    anyRoundVariance: boolean;
+    currentRound: number;
+    roundStatus: TournamentStatus;
 }
 
 const GetLeaderboardHandler: FC<GetLeaderboardHandlerProps> = ({
     leaderboardResponse,
-    roundInProgress,
-    anyRoundVariance,
+    currentRound,
+    roundStatus,
 }) => (
     <speak>
         <TournamentIntroduction tournament={leaderboardResponse} />
         <TournamentLeaders
             leaders={getLeadersFromLeaderboard(leaderboardResponse.leaderboard)}
-            roundInProgress={roundInProgress}
-            anyRoundVariance={anyRoundVariance}
+            currentRound={currentRound}
+            roundStatus={roundStatus}
             isTournamentComplete={isTournamentComplete(leaderboardResponse)}
         />
     </speak>
