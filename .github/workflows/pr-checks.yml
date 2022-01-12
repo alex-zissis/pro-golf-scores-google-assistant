@@ -18,4 +18,4 @@ jobs:
           docker build -t pro-golf-scores:latest . --target test
           docker build -t pro-golf-scores:latest . --target test
           docker run -p 10000:3000 pro-golf-scores:latest
-          curl 127.0.0.1:10000/health
+          curl localhost:10000/health
