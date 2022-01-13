@@ -3,6 +3,8 @@ import ssml from 'ssml-tsx';
 import {GolfScore} from '../GolfScore';
 import {TournamentLeaders} from '../TournamentLeaders';
 import leaderboardMock from '../../../logic/__tests__/leaderboard.mock';
+import {LeaderboardEntryFactory, PlayerLiteFactory} from '../../../helpers/factories';
+import {TournamentStatus} from '../../../types/enums';
 const {renderToString} = ssml;
 
 describe('Get readable string from leaders', () => {
@@ -10,9 +12,14 @@ describe('Get readable string from leaders', () => {
         await expect(
             renderToString(
                 <TournamentLeaders
-                    leaders={[{first_name: 'Cameron', last_name: 'Smith', score: -34}]}
+                    leaders={[
+                        LeaderboardEntryFactory.create({
+                            score: -34,
+                            player: PlayerLiteFactory.create({firstName: 'Cameron', lastName: 'Smith'}),
+                        }),
+                    ]}
                     currentRound={4}
-                    roundStatus="closed"
+                    roundStatus={TournamentStatus.Completed}
                     isTournamentComplete={false}
                 />
             )
@@ -26,9 +33,14 @@ describe('Get readable string from leaders', () => {
         await expect(
             renderToString(
                 <TournamentLeaders
-                    leaders={[{first_name: 'Cameron', last_name: 'Smith', score: -34}]}
+                    leaders={[
+                        LeaderboardEntryFactory.create({
+                            score: -34,
+                            player: PlayerLiteFactory.create({firstName: 'Cameron', lastName: 'Smith'}),
+                        }),
+                    ]}
                     currentRound={4}
-                    roundStatus="closed"
+                    roundStatus={TournamentStatus.Completed}
                     isTournamentComplete={true}
                 />
             )
@@ -43,11 +55,17 @@ describe('Get readable string from leaders', () => {
             renderToString(
                 <TournamentLeaders
                     leaders={[
-                        {first_name: 'Cameron', last_name: 'Smith', score: -34},
-                        {first_name: 'John', last_name: 'Rahm', score: -34},
+                        LeaderboardEntryFactory.create({
+                            score: -34,
+                            player: PlayerLiteFactory.create({firstName: 'Cameron', lastName: 'Smith'}),
+                        }),
+                        LeaderboardEntryFactory.create({
+                            score: -34,
+                            player: PlayerLiteFactory.create({firstName: 'John', lastName: 'Rahm'}),
+                        }),
                     ]}
                     currentRound={2}
-                    roundStatus="inprogress"
+                    roundStatus={TournamentStatus.InProgress}
                     isTournamentComplete={false}
                 />
             )
@@ -62,11 +80,17 @@ describe('Get readable string from leaders', () => {
             renderToString(
                 <TournamentLeaders
                     leaders={[
-                        {first_name: 'Cameron', last_name: 'Smith', score: -34},
-                        {first_name: 'John', last_name: 'Rahm', score: -34},
+                        LeaderboardEntryFactory.create({
+                            score: -34,
+                            player: PlayerLiteFactory.create({firstName: 'Cameron', lastName: 'Smith'}),
+                        }),
+                        LeaderboardEntryFactory.create({
+                            score: -34,
+                            player: PlayerLiteFactory.create({firstName: 'John', lastName: 'Rahm'}),
+                        }),
                     ]}
                     currentRound={4}
-                    roundStatus="closed"
+                    roundStatus={TournamentStatus.Completed}
                     isTournamentComplete={true}
                 />
             )
@@ -84,7 +108,7 @@ describe('Get readable string from leaders', () => {
                 <TournamentLeaders
                     leaders={leaderboardMock.slice(0, 2)}
                     currentRound={4}
-                    roundStatus="closed"
+                    roundStatus={TournamentStatus.Completed}
                     isTournamentComplete={true}
                 />
             )
@@ -100,7 +124,7 @@ describe('Get readable string from leaders', () => {
                 <TournamentLeaders
                     leaders={leaderboardMock.slice(0, 2)}
                     currentRound={3}
-                    roundStatus="inprogress"
+                    roundStatus={TournamentStatus.InProgress}
                     isTournamentComplete={false}
                 />
             )

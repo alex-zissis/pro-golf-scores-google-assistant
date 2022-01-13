@@ -1,23 +1,42 @@
-import {LeaderboardEntry, LeaderboardResponse, Round} from '../types/leaderboard';
-import {PlayerProfile, Tournament, TournamentWithDates, Venue} from '../types/schedule';
+import {TournamentStatus} from '../types/enums.js';
+import {
+    LeaderboardEntry,
+    TournamentResponse,
+    Round,
+    Player,
+    TournamentDetailed,
+    Venue,
+    Provider,
+    PlayerLite,
+    Scoring,
+    TournamentBase,
+} from '../types/golfscores';
 
 type Factory<T> = {
     create: (input?: Partial<T>) => T;
 };
 
-const LeaderboardResponseFactory: Factory<LeaderboardResponse> = {
+const TournamentResponseFactory: Factory<TournamentResponse> = {
     create: (input) => ({
-        ...TournamentFactory.create(input),
+        ...TournamentDetailedFactory.create(input),
         seasons: [],
-        coverage: '',
         leaderboard: [],
+        ...input,
+    }),
+};
+
+const ProviderFactory: Factory<Provider> = {
+    create: (input) => ({
+        baseId: '',
+        golfScoreId: '',
+        provider: 'factory',
         ...input,
     }),
 };
 
 const LeaderboardEntryFactory: Factory<LeaderboardEntry> = {
     create: (input) => ({
-        ...PlayerProfileFactory.create(input),
+        player: PlayerLiteFactory.create(),
         position: 0,
         tied: false,
         money: 0,
@@ -29,91 +48,118 @@ const LeaderboardEntryFactory: Factory<LeaderboardEntry> = {
     }),
 };
 
-const PlayerProfileFactory: Factory<PlayerProfile> = {
+const PlayerLiteFactory: Factory<PlayerLite> = {
     create: (input) => ({
-        abbr_name: '',
-        college: '',
-        birth_place: '',
-        birthday: '',
         country: '',
-        first_name: '',
-        handedness: '',
+        displayName: '',
+        firstName: '',
+        lastName: '',
+        provider: ProviderFactory.create(),
+        ...input,
+    }),
+};
+
+const PlayerFactory: Factory<Player> = {
+    create: (input) => ({
+        ...PlayerLiteFactory.create(input),
+        birthday: new Date(1970, 0, 1),
+        handedness: 'left',
         height: 0,
-        id: '',
         weight: 0,
-        last_name: '',
         residence: '',
-        turned_pro: 0,
+        turnedPro: 0,
+        birthPlace: '',
+        ...input,
+    }),
+};
+
+const ScoringFactory: Factory<Scoring> = {
+    create: (input) => ({
+        birdies: 0,
+        bogeys: 0,
+        doubleBogeys: 0,
+        eagles: 0,
+        holesInOne: 0,
+        other: 0,
+        pars: 0,
         ...input,
     }),
 };
 
 const RoundFactory: Factory<Round> = {
     create: (input) => ({
-        birdies: 0,
-        bogeys: 0,
-        double_bogeys: 0,
-        eagles: 0,
-        holes_in_one: 0,
-        other_scores: 0,
-        pars: 0,
+        roundNumber: 0,
         score: 0,
-        sequence: 0,
+        scoring: ScoringFactory.create(),
         strokes: 0,
         thru: 0,
         ...input,
     }),
 };
 
-const TournamentFactory: Factory<Tournament> = {
+const TournamentDetailedFactory: Factory<TournamentDetailed> = {
     create: (input) => ({
-        start_date: '1970-01-01',
+        provider: ProviderFactory.create(),
         name: '',
-        end_date: '1970-01-01',
-        course_timezone: '',
+        eventTimezone: '',
         currency: '',
-        defending_champ: PlayerProfileFactory.create(),
-        event_type: '',
-        id: '',
+        defendingChamp: PlayerFactory.create(),
+        eventType: '',
         network: '',
         points: 0,
         purse: 1,
-        status: 'inprogress',
-        total_rounds: 0,
+        status: TournamentStatus.InProgress,
+        totalRounds: 0,
         venue: VenueFactory.create(),
-        winner: PlayerProfileFactory.create(),
-        winning_share: 0,
+        winner: PlayerFactory.create(),
+        startDate: new Date(1970, 0, 1),
+        endDate: new Date(1970, 0, 1),
         ...input,
     }),
 };
 
-const TournamentWithDatesFactory: Factory<TournamentWithDates> = {
-    create: ({start_date, end_date, ...input}) => ({
-        ...TournamentFactory.create(input),
-        start_date: start_date ?? new Date(Date.UTC(1970, 1, 1)),
-        end_date: end_date ?? new Date(Date.UTC(1970, 1, 1)),
+const TournamentBaseFactory: Factory<TournamentBase> = {
+    create: (input) => ({
+        provider: ProviderFactory.create(),
+        name: '',
+        eventTimezone: '',
+        currency: '',
+        defendingChamp: PlayerFactory.create(),
+        eventType: '',
+        network: '',
+        points: 0,
+        purse: 1,
+        status: TournamentStatus.InProgress,
+        totalRounds: 0,
+        venue: VenueFactory.create(),
+        winner: PlayerFactory.create(),
+        startDate: new Date(1970, 0, 1),
+        endDate: new Date(1970, 0, 1),
+        ...input,
     }),
 };
 
 const VenueFactory: Factory<Venue> = {
     create: (input) => ({
+        provider: ProviderFactory.create(),
         city: '',
         country: '',
         courses: [],
-        id: '',
         name: '',
         state: '',
-        zipcode: '',
+        zipCode: '',
         ...input,
     }),
 };
 
 export {
-    LeaderboardResponseFactory,
+    TournamentResponseFactory,
     LeaderboardEntryFactory,
     RoundFactory,
-    PlayerProfileFactory,
-    TournamentFactory,
-    TournamentWithDatesFactory,
+    PlayerFactory,
+    PlayerLiteFactory,
+    TournamentDetailedFactory,
     VenueFactory,
+    ProviderFactory,
+    TournamentBaseFactory
 };

@@ -1,6 +1,7 @@
 /** @jsx ssml **/
 import ssml from 'ssml-tsx';
-import {TournamentFactory, VenueFactory} from '../../../helpers/factories';
+import {TournamentBaseFactory, TournamentDetailedFactory, VenueFactory} from '../../../helpers/factories';
+import {TournamentStatus} from '../../../types/enums';
 import {TournamentIntroduction} from '../TournamentIntroduction';
 const {renderToString} = ssml;
 
@@ -9,11 +10,10 @@ describe('Get readable tournament introduction', () => {
         await expect(
             renderToString(
                 <TournamentIntroduction
-                    tournament={TournamentFactory.create({
+                    tournament={TournamentBaseFactory.create({
                         name: 'a',
-                        end_date: '2021-06-01',
-                        status: 'closed',
-                        venue: null,
+                        endDate: new Date(2021, 5, 1),
+                        status: TournamentStatus.Completed,
                     })}
                 />
             )
@@ -25,10 +25,10 @@ describe('Get readable tournament introduction', () => {
         await expect(
             renderToString(
                 <TournamentIntroduction
-                    tournament={TournamentFactory.create({
+                    tournament={TournamentDetailedFactory.create({
                         name: 'a',
-                        end_date: '2021-06-01',
-                        status: 'closed',
+                        endDate: new Date('2021-06-01'),
+                        status: TournamentStatus.Completed,
                         venue: VenueFactory.create({name: 'Quail Hollow Club'}),
                     })}
                 />
@@ -43,10 +43,9 @@ describe('Get readable tournament introduction', () => {
         await expect(
             renderToString(
                 <TournamentIntroduction
-                    tournament={TournamentFactory.create({
+                    tournament={TournamentBaseFactory.create({
                         name: 'a',
-                        status: 'inprogress',
-                        venue: null,
+                        status: TournamentStatus.InProgress,
                     })}
                 />
             )
@@ -55,9 +54,9 @@ describe('Get readable tournament introduction', () => {
         await expect(
             renderToString(
                 <TournamentIntroduction
-                    tournament={TournamentFactory.create({
+                    tournament={TournamentDetailedFactory.create({
                         name: 'a',
-                        status: 'inprogress',
+                        status: TournamentStatus.InProgress,
                         venue: VenueFactory.create({name: 'Quail Hollow Club'}),
                     })}
                 />
@@ -69,11 +68,10 @@ describe('Get readable tournament introduction', () => {
         await expect(
             renderToString(
                 <TournamentIntroduction
-                    tournament={TournamentFactory.create({
+                    tournament={TournamentBaseFactory.create({
                         name: 'a',
-                        start_date: '2021-06-01',
-                        status: 'scheduled',
-                        venue: null,
+                        startDate: new Date('2021-06-01'),
+                        status: TournamentStatus.Upcoming,
                     })}
                 />
             )
@@ -85,10 +83,10 @@ describe('Get readable tournament introduction', () => {
         await expect(
             renderToString(
                 <TournamentIntroduction
-                    tournament={TournamentFactory.create({
+                    tournament={TournamentDetailedFactory.create({
                         name: 'a',
-                        start_date: '2021-06-01',
-                        status: 'scheduled',
+                        startDate: new Date('2021-06-01'),
+                        status: TournamentStatus.Upcoming,
                         venue: VenueFactory.create({name: 'Quail Hollow Club'}),
                     })}
                 />

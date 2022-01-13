@@ -1,13 +1,13 @@
-import {TournamentWithDates} from '../types/schedule';
+import {TournamentDetailed} from '../types/golfscores';
 
-const findClosestTournament = (tournaments: TournamentWithDates[], referenceDate: Date): TournamentWithDates => {
+const findClosestTournament = (tournaments: TournamentDetailed[], referenceDate: Date): TournamentDetailed => {
     let i = 0;
-    let closestTournament: TournamentWithDates;
+    let closestTournament: TournamentDetailed;
     while (
-        (referenceDate > (closestTournament?.start_date ?? new Date(1, 1, 1970)) ||
-            (referenceDate.getUTCFullYear() === closestTournament?.start_date.getUTCFullYear() &&
-                referenceDate.getUTCMonth() === closestTournament?.start_date.getUTCMonth() &&
-                referenceDate.getUTCDate() === closestTournament?.start_date.getUTCDate())) &&
+        (referenceDate > (closestTournament?.startDate ?? new Date(1, 1, 1970)) ||
+            (referenceDate.getUTCFullYear() === closestTournament?.startDate.getUTCFullYear() &&
+                referenceDate.getUTCMonth() === closestTournament?.startDate.getUTCMonth() &&
+                referenceDate.getUTCDate() === closestTournament?.startDate.getUTCDate())) &&
         i < tournaments.length
     ) {
         i++;

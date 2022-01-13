@@ -1,6 +1,6 @@
 import {Table} from '@assistant/conversation';
 import countries from 'i18n-iso-countries';
-import {LeaderboardEntry} from '../types/leaderboard';
+import {LeaderboardEntry} from '../types/golfscores';
 import {getFlagEmoji, getPositionForDisplay, getRoundScoreForDisplay, getScoreForDisplay} from '../utils.js';
 
 const getLeaderboardTableForTournament = (
@@ -14,14 +14,14 @@ const getLeaderboardTableForTournament = (
         title: tournamentName,
         columns: [{header: '#'}, {header: 'Name'}, {header: 'Nation'}, {header: 'Total'}, {header: `R${currentRound}`}],
         rows: [
-            ...leaderboardForDisplay.map((player, i) => {
+            ...leaderboardForDisplay.map((entry, i) => {
                 return {
                     cells: [
-                        {text: getPositionForDisplay(player, leaderboardForDisplay[i - 1])},
-                        {text: `${player.first_name} ${player.last_name}`},
-                        {text: getFlagEmoji(countries.getAlpha2Code(player.country, 'en'))},
-                        {text: getScoreForDisplay(player.score)},
-                        {text: getRoundScoreForDisplay(player.rounds[currentRound - 1])},
+                        {text: getPositionForDisplay(entry, leaderboardForDisplay[i - 1])},
+                        {text: `${entry.player.firstName} ${entry.player.lastName}`},
+                        {text: getFlagEmoji(countries.getAlpha2Code(entry.player.country, 'en'))},
+                        {text: getScoreForDisplay(entry.score)},
+                        {text: getRoundScoreForDisplay(entry.rounds[currentRound - 1])},
                     ],
                 };
             }),

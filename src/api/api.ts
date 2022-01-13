@@ -1,9 +1,8 @@
+import path from 'path';
 import nf from 'node-fetch';
 import {promises as fs} from 'fs';
-import path from 'path';
-import {dirname, isTest} from './utils.js';
-import {LeaderboardResponse} from './types/leaderboard';
-import {ScheduleResponse} from './types/schedule.js';
+import {dirname, isTest} from '../utils.js';
+import {ScheduleResponse, TournamentResponse} from '../types/golfscores';
 
 const [, , mock] = process.argv;
 const shouldMockRequest = !!mock || isTest();
@@ -39,31 +38,27 @@ const fetch = shouldMockRequest
       })
     : !disableNodeFetch
     ? nf
-    : new Error('');
+    : undefined;
 
-if (fetch instanceof Error) {
-    throw fetch;
+if (!fetch) {
+    throw Error('Could not initiate a fetch object');
 }
-
-const Tournament = {
-    getLeaderboard: async (tournamentId: string, year: number) => {
-        return fetch(
-            `http://api.sportradar.us/golf/trial/pga/v3/en/${year}/tournaments/${tournamentId}/leaderboard.json?api_key=${process.env.SPORTRADAR_API_KEY}`
-        ).then((res) => res.json() as Promise<LeaderboardResponse>);
-    },
-};
 
 interface GetScheduleArgs {
     tour?: string;
     year?: number;
 }
 
-const Schedule = {
-    getSchedule: async (args: GetScheduleArgs = {tour: 'pga', year: new Date().getFullYear()}) => {
-        return fetch(
-            `http://api.sportradar.us/golf/trial/${args.tour}/v3/en/${args.year}/tournaments/schedule.json?api_key=${process.env.SPORTRADAR_API_KEY}`
-        ).then((res) => res.json() as Promise<ScheduleResponse>);
-    },
-};
+export interface Api<ProviderName> {
+    providerName: ProviderName;
+    fetch:
+        | ((url: string) => Promise<{
+              json: () => Promise<any>;
+          }>)
+        | ((url: RequestInfo, init?: RequestInit) => Promise<Response>);
 
-export {Schedule, Tournament};
+    getTournament(tournamentId: string, year: number): Promise<TournamentResponse>;
+    getSchedule(args?: GetScheduleArgs): Promise<ScheduleResponse>;
+}
+
+export {fetch};

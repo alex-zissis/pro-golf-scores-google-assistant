@@ -1,7 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import golf from './golf.js';
+import conversationApp from './conversation.js';
 import {isDevelopment} from './utils.js';
 
 const app = express();
@@ -10,7 +10,7 @@ if (isDevelopment()) {
     app.use(morgan('dev'));
 }
 
-app.post('/', golf);
+app.post('/', conversationApp);
 
 app.get('/health', (req, res) => res.status(200).send('👍'));
 

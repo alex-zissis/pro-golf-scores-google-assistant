@@ -1,13 +1,13 @@
 /** @jsx ssml */
 import ssml, {FC} from 'ssml-tsx';
 import ordinal from 'ordinal';
-import {LeaderboardEntry} from '../../types/leaderboard';
+import {LeaderboardEntry} from '../../types/golfscores';
 import {joinArrayAsSentence} from '../../utils.js';
 import {GolfScore} from './GolfScore.js';
-import {TournamentStatus} from '../../types/schedule';
+import {TournamentStatus} from '../../types/enums';
 
 interface TournamentLeaderProps {
-    leaders: Pick<LeaderboardEntry, 'first_name' | 'last_name' | 'score'>[];
+    leaders: LeaderboardEntry[];
     currentRound: number;
     roundStatus: TournamentStatus;
     isTournamentComplete: boolean;
@@ -24,20 +24,21 @@ const TournamentLeaders: FC<TournamentLeaderProps> = ({leaders, currentRound, ro
             : `The leader is currently`;
 
     if (leaders.length === 1) {
-        const [leader] = leaders;
+        const [leaderEntry] = leaders;
         return (
             <p>
-                {getLeaderOrWinner()} {leader.first_name} {leader.last_name} at <GolfScore score={leader.score} />,{' '}
-                {roundStatus === 'inprogress' ? 'during' : 'after'} the {ordinal(currentRound)} round.
+                {getLeaderOrWinner()} {leaderEntry.player.firstName} {leaderEntry.player.lastName} at{' '}
+                <GolfScore score={leaderEntry.score} />,{' '}
+                {roundStatus === TournamentStatus.InProgress ? 'during' : 'after'} the {ordinal(currentRound)} round.
             </p>
         );
     }
 
     return (
         <p>
-            {joinArrayAsSentence(leaders.map((player) => `${player.first_name} ${player.last_name}`))}{' '}
+            {joinArrayAsSentence(leaders.map((entry) => `${entry.player.firstName} ${entry.player.lastName}`))}{' '}
             {getLeaderOrWinner()} at <GolfScore score={leaders[0].score} />,{' '}
-            {roundStatus === 'inprogress' ? 'during' : 'after'} the {ordinal(currentRound)} round.
+            {roundStatus === TournamentStatus.InProgress ? 'during' : 'after'} the {ordinal(currentRound)} round.
         </p>
     );
 };

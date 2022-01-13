@@ -2,33 +2,31 @@
 import {ConversationV3, Simple} from '@assistant/conversation';
 import {ConversationV3Handler} from '@assistant/conversation/dist/conversation';
 import ssml from 'ssml-tsx';
-import {Schedule, Tournament} from '../api.js';
+import {SportRadarApi} from '../api/SportRadarApi';
 import cache, {CacheKeys} from '../cache.js';
 import {getCurrentRound} from '../logic/golf.js';
 import {findClosestTournament} from '../logic/tournament.js';
-import {mapTournamentToTournamentWithDates} from '../mappers/tournament.js';
 import {addHoursToDate} from '../utils.js';
 import {GetLeaderboardHandler} from '../ssml/GetLeaderboardHandler.js';
 import {CurrentTournament} from '../types/cache.js';
 import {getLeaderboardTableForTournament} from '../renderers/table.js';
 const {renderToString} = ssml;
 
-const getLeaderboard: ConversationV3Handler<ConversationV3> = async (conv) => {
+const getTournament: ConversationV3Handler<ConversationV3> = async (conv) => {
     let currentTournament = await cache.readCache<CurrentTournament>(CacheKeys.CurrentTournament);
 
     if (!currentTournament) {
-        const scheduleResponse = await Schedule.getSchedule();
+        const scheduleResponse = await SportRadarApi.getSchedule();
 
-        const tournamentsWithDates = mapTournamentToTournamentWithDates(scheduleResponse.tournaments);
         const today = new Date();
-        const closestTournament = findClosestTournament(tournamentsWithDates, today);
+        const closestTournament = findClosestTournament(scheduleResponse.tournaments, today);
 
         currentTournament = {
-            id: closestTournament.id,
+            provider: closestTournament.provider,
             name: closestTournament.name,
-            expiresUtc: (today > closestTournament.end_date
+            expiresUtc: (today > closestTournament.startDate
                 ? addHoursToDate(today, 6)
-                : addHoursToDate(closestTournament.end_date, 12)
+                : addHoursToDate(closestTournament.endDate, 12)
             ).toISOString(),
             year: scheduleResponse.season.year,
         };
@@ -36,13 +34,13 @@ const getLeaderboard: ConversationV3Handler<ConversationV3> = async (conv) => {
         await cache.writeCache(CacheKeys.CurrentTournament, currentTournament);
     }
 
-    const leaderboardResponse = await Tournament.getLeaderboard(currentTournament.id, currentTournament.year);
-    const {leaderboard} = leaderboardResponse;
+    const tournamentResponse = await SportRadarApi.getTournament(currentTournament.provider.baseId, currentTournament.year);
+    const {leaderboard} = tournamentResponse;
     const {currentRound, status} = getCurrentRound(leaderboard);
 
     const speech = renderToString(
         <GetLeaderboardHandler
-            leaderboardResponse={leaderboardResponse}
+            tournamentResponse={tournamentResponse}
             currentRound={currentRound}
             roundStatus={status}
         />
@@ -54,7 +52,7 @@ const getLeaderboard: ConversationV3Handler<ConversationV3> = async (conv) => {
         })
     );
 
-    conv.add(getLeaderboardTableForTournament(leaderboardResponse.name, currentRound, leaderboard));
+    conv.add(getLeaderboardTableForTournament(tournamentResponse.name, currentRound, leaderboard));
 };
 
-export {getLeaderboard};
+export {getTournament};

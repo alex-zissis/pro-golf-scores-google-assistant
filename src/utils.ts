@@ -1,5 +1,5 @@
 import {fileURLToPath} from 'url';
-import {LeaderboardEntry, Round} from './types/leaderboard';
+import {LeaderboardEntry, Round} from './types/golfscores';
 
 const dirname = fileURLToPath(import.meta.url);
 
@@ -24,7 +24,7 @@ const joinArrayAsSentence = (arr: string[], joinChar = ',') => {
     return `${start.join(`${joinChar} `)} and ${last}`;
 };
 
-const getRoundScoreForDisplay = ({thru, score}: Pick<Round, 'thru' | 'score'>): string => {
+const getRoundScoreForDisplay = ({thru, score}: Round): string => {
     if (thru === 0 && score === 0) {
         return '-';
     }
