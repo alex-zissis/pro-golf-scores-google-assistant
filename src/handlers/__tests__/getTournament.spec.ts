@@ -1,11 +1,11 @@
 import request from 'supertest';
 import {jest} from '@jest/globals';
 
-import app from '../../app';
+import app from '../../app.js';
 import getLeaderboardReqBody from './getTournament.mock.json';
-import cache, {CacheKeys} from '../../cache';
-import {CacheObject, CurrentTournament} from '../../types/cache';
-import {ConversationResponse} from './handlers';
+import cache, {CacheKeys} from '../../cache.js';
+import {CacheObject, CurrentTournament} from '../../types/cache.js';
+import {ConversationResponse} from './handlers.js';
 
 let appInstance: request.SuperTest<request.Test>;
 
@@ -23,7 +23,7 @@ describe('Health check', () => {
 
 describe('Get leaderboard handler', () => {
     it('should return a valid and correct ConversationResponse', async () => {
-        jest.spyOn(cache, 'readCache').mockImplementation(async function (cacheKey: CacheKeys) {
+        jest.spyOn(cache, 'readCache').mockImplementation(async function (_: CacheKeys) {
             return {
                 expiresUtc: new Date(Date.UTC(2025, 1, 1)).toISOString(),
                 provider: {

@@ -1,5 +1,11 @@
-import {RoundFactory} from './helpers/factories';
-import {addHoursToDate, getFlagEmoji, getRoundScoreForDisplay, getScoreForDisplay, joinArrayAsSentence} from './utils';
+import {RoundFactory} from './helpers/factories.js';
+import {
+    addHoursToDate,
+    getFlagEmoji,
+    getRoundScoreForDisplay,
+    getScoreForDisplay,
+    joinArrayAsSentence,
+} from './utils.js';
 
 describe('Get round score for display', () => {
     test('It should display a score under par given a negative integer.', () => {

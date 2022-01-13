@@ -9,9 +9,9 @@ import {
     SRTournament,
     SRTournamentStatus,
     SRVenue,
-} from '../types/providers/sportradar';
-import {TournamentStatus} from '../types/enums';
-import {Mapper} from './mapper';
+} from '../types/providers/sportradar.js';
+import {TournamentStatus} from '../types/enums.js';
+import {Mapper} from './mapper.js';
 
 const SportRadarMapper: Mapper<
     'sportradar',
@@ -191,7 +191,8 @@ const SportRadarMapper: Mapper<
             points,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
-            defendingChamp: remoteTournament.defending_champ && SportRadarMapper.player(remoteTournament.defending_champ),
+            defendingChamp:
+                remoteTournament.defending_champ && SportRadarMapper.player(remoteTournament.defending_champ),
             purse,
             status: SportRadarMapper.status(status),
             totalRounds,

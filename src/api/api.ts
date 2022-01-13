@@ -2,7 +2,7 @@ import path from 'path';
 import nf from 'node-fetch';
 import {promises as fs} from 'fs';
 import {dirname, isTest} from '../utils.js';
-import {ScheduleResponse, TournamentResponse} from '../types/golfscores';
+import {ScheduleResponse, TournamentResponse} from '../types/golfscores.js';
 
 const [, , mock] = process.argv;
 const shouldMockRequest = !!mock || isTest();

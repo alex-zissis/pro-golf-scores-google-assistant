@@ -1,5 +1,5 @@
 import {fileURLToPath} from 'url';
-import {LeaderboardEntry, Round} from './types/golfscores';
+import {LeaderboardEntry, Round} from './types/golfscores.js';
 
 const dirname = fileURLToPath(import.meta.url);
 

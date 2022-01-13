@@ -1,6 +1,6 @@
 import {Table} from '@assistant/conversation';
 import countries from 'i18n-iso-countries';
-import {LeaderboardEntry} from '../types/golfscores';
+import {LeaderboardEntry} from '../types/golfscores.js';
 import {getFlagEmoji, getPositionForDisplay, getRoundScoreForDisplay, getScoreForDisplay} from '../utils.js';
 
 const getLeaderboardTableForTournament = (

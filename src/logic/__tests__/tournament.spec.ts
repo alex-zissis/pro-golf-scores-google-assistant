@@ -1,7 +1,7 @@
-import {findClosestTournament} from '../tournament';
-import {TournamentDetailedFactory} from '../../helpers/factories';
+import {findClosestTournament} from '../tournament.js';
+import {TournamentDetailedFactory} from '../../helpers/factories.js';
 import scheduleMock from '../../mocks/schedule/pga/2022.json';
-import {SportRadarMapper} from '../../mappers/SportRadarMapper';
+import {SportRadarMapper} from '../../mappers/SportRadarMapper.js';
 
 describe('Find the closest tournament from the schedule, to a given date', () => {
     test('it should correctly return the closest tournament for a simple example', () => {

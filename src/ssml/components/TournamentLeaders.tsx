@@ -1,10 +1,10 @@
-/** @jsx ssml */
-import ssml, {FC} from 'ssml-tsx';
+/** @jsx _ssml */
+import _ssml, {FC} from 'ssml-tsx';
 import ordinal from 'ordinal';
-import {LeaderboardEntry} from '../../types/golfscores';
+import {LeaderboardEntry} from '../../types/golfscores.js';
 import {joinArrayAsSentence} from '../../utils.js';
 import {GolfScore} from './GolfScore.js';
-import {TournamentStatus} from '../../types/enums';
+import {TournamentStatus} from '../../types/enums.js';
 
 interface TournamentLeaderProps {
     leaders: LeaderboardEntry[];

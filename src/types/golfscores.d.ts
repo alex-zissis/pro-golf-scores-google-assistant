@@ -1,4 +1,4 @@
-import {TournamentStatus} from './enums';
+import {TournamentStatus} from './enums.js';
 
 type WithProvider<Base> = Base & {provider: Provider};
 

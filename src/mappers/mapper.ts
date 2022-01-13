@@ -8,8 +8,8 @@ import {
     ScheduleResponse,
     TournamentDetailed,
     Venue,
-} from '../types/golfscores';
-import {TournamentStatus} from '../types/enums';
+} from '../types/golfscores.js';
+import {TournamentStatus} from '../types/enums.js';
 
 export interface Mapper<
     ProviderName,

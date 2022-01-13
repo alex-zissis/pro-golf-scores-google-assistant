@@ -1,8 +1,8 @@
 /** @jsx ssml **/
 import ssml from 'ssml-tsx';
-import {TournamentBaseFactory, TournamentDetailedFactory, VenueFactory} from '../../../helpers/factories';
-import {TournamentStatus} from '../../../types/enums';
-import {TournamentIntroduction} from '../TournamentIntroduction';
+import {TournamentBaseFactory, TournamentDetailedFactory, VenueFactory} from '../../../helpers/factories.js';
+import {TournamentStatus} from '../../../types/enums.js';
+import {TournamentIntroduction} from '../TournamentIntroduction.js';
 const {renderToString} = ssml;
 
 describe('Get readable tournament introduction', () => {

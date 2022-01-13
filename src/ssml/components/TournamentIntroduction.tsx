@@ -1,7 +1,7 @@
-/** @jsx ssml */
-import ssml, {FC} from 'ssml-tsx';
+/** @jsx _ssml */
+import _ssml, {FC} from 'ssml-tsx';
 import {format} from 'date-fns';
-import {TournamentBase} from '../../types/golfscores';
+import {TournamentBase} from '../../types/golfscores.js';
 import {isTournamentComplete, isTournamentInFuture, isTournament} from '../../logic/golf.js';
 
 const addTournamentVenueSuffixIfApplicable = (tournament: TournamentBase, leadIn = ' at ') =>

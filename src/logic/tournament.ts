@@ -1,4 +1,4 @@
-import {TournamentDetailed} from '../types/golfscores';
+import {TournamentDetailed} from '../types/golfscores.js';
 
 const findClosestTournament = (tournaments: TournamentDetailed[], referenceDate: Date): TournamentDetailed => {
     let i = 0;

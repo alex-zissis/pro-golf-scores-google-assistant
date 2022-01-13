@@ -1,4 +1,4 @@
-import {Provider} from './golfscores';
+import {Provider} from './golfscores.js';
 
 export type CacheObject<T> = T & {expiresUtc: string};
 

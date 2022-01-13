@@ -1,4 +1,4 @@
-import {SportRadarMapper} from '../../mappers/SportRadarMapper';
+import {SportRadarMapper} from '../../mappers/SportRadarMapper.js';
 
 export default [
     {

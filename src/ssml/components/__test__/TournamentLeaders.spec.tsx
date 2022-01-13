@@ -1,10 +1,10 @@
 /** @jsx ssml **/
 import ssml from 'ssml-tsx';
-import {GolfScore} from '../GolfScore';
-import {TournamentLeaders} from '../TournamentLeaders';
-import leaderboardMock from '../../../logic/__tests__/leaderboard.mock';
-import {LeaderboardEntryFactory, PlayerLiteFactory} from '../../../helpers/factories';
-import {TournamentStatus} from '../../../types/enums';
+import {GolfScore} from '../GolfScore.js';
+import {TournamentLeaders} from '../TournamentLeaders.js';
+import leaderboardMock from '../../../logic/__tests__/leaderboard.mock.js';
+import {LeaderboardEntryFactory, PlayerLiteFactory} from '../../../helpers/factories.js';
+import {TournamentStatus} from '../../../types/enums.js';
 const {renderToString} = ssml;
 
 describe('Get readable string from leaders', () => {

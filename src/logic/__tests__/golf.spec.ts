@@ -5,15 +5,15 @@ import {
     RoundFactory,
     TournamentDetailedFactory,
     ProviderFactory,
-} from '../../helpers/factories';
-import leaderboardMock from './leaderboard.mock';
+} from '../../helpers/factories.js';
+import leaderboardMock from './leaderboard.mock.js';
 import {
     getLeadersFromLeaderboard,
     isTournamentComplete,
     getCurrentRound,
     getHighestRoundPlayerHasStarted,
-} from '../golf';
-import {TournamentStatus} from '../../types/enums';
+} from '../golf.js';
+import {TournamentStatus} from '../../types/enums.js';
 
 describe('Get leaders from leaderboard', () => {
     test('Should get single leader if there is no tie', () => {

@@ -10,7 +10,7 @@ declare global {
 }
 
 expect.extend({
-    async toBeValidSSMLAndEqual(received: string, expected: string, partial: boolean = false) {
+    async toBeValidSSMLAndEqual(received: string, expected: string, partial = false) {
         const options = {
             comment: 'Object.is equality',
             isNot: this.isNot,
@@ -24,7 +24,7 @@ expect.extend({
         }
         const err = await ssmlCheck.check(toCheck);
         let message: string;
-        let pass: boolean = true;
+        let pass = true;
 
         if (err) {
             message = `SSML validation failed. Error: ${JSON.stringify(err, null, 2)}`;

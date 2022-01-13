@@ -1,8 +1,8 @@
-import {LeaderboardEntry, TournamentResponse, TournamentDetailed, TournamentBase} from '../types/golfscores';
+import {LeaderboardEntry, TournamentResponse, TournamentDetailed, TournamentBase} from '../types/golfscores.js';
 import {TournamentStatus} from '../types/enums.js';
 
 const getLeadersFromLeaderboard = (leaderboard: LeaderboardEntry[]): LeaderboardEntry[] => {
-    let leaders = [];
+    const leaders = [];
     for (const player of leaderboard) {
         if (player.position === 1) {
             leaders.push(player);

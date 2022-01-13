@@ -10,7 +10,7 @@ import {
     PlayerLite,
     Scoring,
     TournamentBase,
-} from '../types/golfscores';
+} from '../types/golfscores.js';
 
 type Factory<T> = {
     create: (input?: Partial<T>) => T;
@@ -161,5 +161,5 @@ export {
     TournamentDetailedFactory,
     VenueFactory,
     ProviderFactory,
-    TournamentBaseFactory
+    TournamentBaseFactory,
 };

@@ -1,4 +1,4 @@
-import {Hole, Season, Tour} from '../golfscores';
+import {Hole, Season, Tour} from '../golfscores.js';
 
 interface SRRound {
     score: number;
