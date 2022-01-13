@@ -1,22 +1,16 @@
 /** @jsx ssml */
-import {ConversationV3, Simple, Table} from '@assistant/conversation';
+import {ConversationV3, Simple} from '@assistant/conversation';
 import {ConversationV3Handler} from '@assistant/conversation/dist/conversation';
 import ssml from 'ssml-tsx';
-import countries from 'i18n-iso-countries';
 import {Schedule, Tournament} from '../api.js';
 import cache, {CacheKeys} from '../cache.js';
 import {getCurrentRound} from '../logic/golf.js';
 import {findClosestTournament} from '../logic/tournament.js';
 import {mapTournamentToTournamentWithDates} from '../mappers/tournament.js';
-import {
-    addHoursToDate,
-    getFlagEmoji,
-    getPositionForDisplay,
-    getRoundScoreForDisplay,
-    getScoreForDisplay,
-} from '../utils.js';
+import {addHoursToDate} from '../utils.js';
 import {GetLeaderboardHandler} from '../ssml/GetLeaderboardHandler.js';
 import {CurrentTournament} from '../types/cache.js';
+import {getLeaderboardTableForTournament} from '../renderers/table.js';
 const {renderToString} = ssml;
 
 const getLeaderboard: ConversationV3Handler<ConversationV3> = async (conv) => {
@@ -45,7 +39,6 @@ const getLeaderboard: ConversationV3Handler<ConversationV3> = async (conv) => {
     const leaderboardResponse = await Tournament.getLeaderboard(currentTournament.id, currentTournament.year);
     const {leaderboard} = leaderboardResponse;
     const {currentRound, status} = getCurrentRound(leaderboard);
-    const leaderboardForDisplay = leaderboard.slice(0, 10);
 
     const speech = renderToString(
         <GetLeaderboardHandler
@@ -61,31 +54,7 @@ const getLeaderboard: ConversationV3Handler<ConversationV3> = async (conv) => {
         })
     );
 
-    conv.add(
-        new Table({
-            title: leaderboardResponse.name,
-            columns: [
-                {header: '#'},
-                {header: 'Name'},
-                {header: 'Nation'},
-                {header: 'Total'},
-                {header: `R${currentRound}`},
-            ],
-            rows: [
-                ...leaderboardForDisplay.map((player, i) => {
-                    return {
-                        cells: [
-                            {text: getPositionForDisplay(player, leaderboardForDisplay[i - 1])},
-                            {text: `${player.first_name} ${player.last_name}`},
-                            {text: getFlagEmoji(countries.getAlpha2Code(player.country, 'en'))},
-                            {text: getScoreForDisplay(player.score)},
-                            {text: getRoundScoreForDisplay(player.rounds[currentRound - 1])},
-                        ],
-                    };
-                }),
-            ],
-        })
-    );
+    conv.add(getLeaderboardTableForTournament(leaderboardResponse.name, currentRound, leaderboard));
 };
 
 export {getLeaderboard};
