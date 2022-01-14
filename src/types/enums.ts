@@ -4,3 +4,16 @@ export enum TournamentStatus {
     InProgress,
     Completed,
 }
+
+export enum LeaderboardEntryStatus {
+    Unknown,
+    Cut,
+    Withdrawn,
+}
+
+export enum EventType {
+    Stroke,
+    Cup,
+    Match,
+    Team,
+}

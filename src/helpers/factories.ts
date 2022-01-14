@@ -1,4 +1,4 @@
-import {TournamentStatus} from '../types/enums.js';
+import {EventType, LeaderboardEntryStatus, TournamentStatus} from '../types/enums.js';
 import {
     LeaderboardEntry,
     TournamentResponse,
@@ -10,10 +10,22 @@ import {
     PlayerLite,
     Scoring,
     TournamentBase,
+    Course,
 } from '../types/golfscores.js';
 
 type Factory<T> = {
     create: (input?: Partial<T>) => T;
+};
+
+const CourseFactory: Factory<Course> = {
+    create: (input) => ({
+        provider: ProviderFactory.create(),
+        holes: [],
+        length: 0,
+        name: '',
+        par: 0,
+        ...input,
+    }),
 };
 
 const TournamentResponseFactory: Factory<TournamentResponse> = {
@@ -43,6 +55,7 @@ const LeaderboardEntryFactory: Factory<LeaderboardEntry> = {
         points: 0,
         score: 0,
         strokes: 0,
+        status: LeaderboardEntryStatus.Unknown,
         rounds: [],
         ...input,
     }),
@@ -62,13 +75,10 @@ const PlayerLiteFactory: Factory<PlayerLite> = {
 const PlayerFactory: Factory<Player> = {
     create: (input) => ({
         ...PlayerLiteFactory.create(input),
-        birthday: new Date(1970, 0, 1),
-        handedness: 'left',
+        dateOfBirth: new Date(1970, 0, 1),
         height: 0,
         weight: 0,
-        residence: '',
-        turnedPro: 0,
-        birthPlace: '',
+        yearTurnedPro: 0,
         ...input,
     }),
 };
@@ -104,7 +114,7 @@ const TournamentDetailedFactory: Factory<TournamentDetailed> = {
         eventTimezone: '',
         currency: '',
         defendingChamp: PlayerFactory.create(),
-        eventType: '',
+        eventType: EventType.Stroke,
         network: '',
         points: 0,
         purse: 1,
@@ -125,7 +135,7 @@ const TournamentBaseFactory: Factory<TournamentBase> = {
         eventTimezone: '',
         currency: '',
         defendingChamp: PlayerFactory.create(),
-        eventType: '',
+        eventType: EventType.Stroke,
         network: '',
         points: 0,
         purse: 1,
@@ -153,6 +163,7 @@ const VenueFactory: Factory<Venue> = {
 };
 
 export {
+    CourseFactory,
     TournamentResponseFactory,
     LeaderboardEntryFactory,
     RoundFactory,

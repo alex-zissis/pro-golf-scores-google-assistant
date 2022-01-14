@@ -56,14 +56,24 @@ const getPositionForDisplay = (player: LeaderboardEntry, lastPlayer: Leaderboard
     return player.position.toString();
 };
 
-function getFlagEmoji(countryCode: string) {
+const getFlagEmoji = (countryCode: string) => {
     const codePoints = countryCode
         .toUpperCase()
         .split('')
         .map((char) => 127397 + char.charCodeAt(0));
 
     return String.fromCodePoint(...codePoints);
-}
+};
+
+const inchesToCms = (inches: number) => Math.round(inches * 2.54);
+const poundsToKgs = (pounds: number) => Math.round(pounds * 0.45359237);
+const yardsToMeters = (yards: number) => Math.round(yards * 0.9144);
+
+const toTitleCase = (str: string) =>
+    str
+        .split(' ')
+        .map((w) => w[0].toUpperCase() + w.substr(1).toLowerCase())
+        .join(' ');
 
 const isDevelopment = () => process.env.NODE_ENV === 'development';
 const isTest = () => process.env.NODE_ENV === 'test';
@@ -80,4 +90,8 @@ export {
     isDevelopment,
     isTest,
     isProduction,
+    inchesToCms,
+    poundsToKgs,
+    toTitleCase,
+    yardsToMeters
 };

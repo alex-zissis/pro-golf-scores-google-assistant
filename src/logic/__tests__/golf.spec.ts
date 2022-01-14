@@ -90,11 +90,11 @@ describe('Get leaders from leaderboard', () => {
         expect(result).toHaveLength(1);
         const [leader] = result;
         expect(leader).toHaveProperty('player.provider.baseId', 'a7041051-eb25-40b9-acb3-dab88cae69c0');
-        expect(leader).toHaveProperty('player.country', 'UNITED STATES');
+        expect(leader).toHaveProperty('player.country', 'United States');
         expect(leader).toHaveProperty('position', 1);
         expect(leader).toHaveProperty('tied', false);
         expect(leader).toHaveProperty('score', -20);
-        expect(leader).toHaveProperty('player.displayName', 'D.Johnson');
+        expect(leader).toHaveProperty('player.displayName', 'D. Johnson');
         expect(leader).toHaveProperty('rounds');
         const {rounds} = leader;
         expect(rounds).toHaveLength(4);

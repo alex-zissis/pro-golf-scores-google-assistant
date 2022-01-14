@@ -7,20 +7,33 @@ import {
     SRRound,
     SRScheduleResponse,
     SRTournament,
-    SRTournamentStatus,
     SRVenue,
+    SRTour,
+    SRSeason,
+    SRSimpleSeason,
+    SRTournamentStatus,
+    SRLeaderboardEnryStatus,
+    SREventType,
+    SRHole,
 } from '../types/providers/sportradar.js';
-import {TournamentStatus} from '../types/enums.js';
+import {EventType, LeaderboardEntryStatus, TournamentStatus} from '../types/enums.js';
 import {Mapper} from './mapper.js';
+import {inchesToCms, poundsToKgs, toTitleCase, yardsToMeters} from '../utils.js';
 
 const SportRadarMapper: Mapper<
     'sportradar',
     SRCourse,
+    SREventType,
+    SRHole,
     SRLeaderboardEntry,
+    SRLeaderboardEnryStatus,
     SRPlayerProfile,
     SRRound,
-    SRTournamentStatus,
+    SRSeason,
+    SRSimpleSeason,
+    SRTour,
     SRTournament,
+    SRTournamentStatus,
     SRVenue,
     SRTournamentResponse,
     SRScheduleResponse
@@ -40,10 +53,34 @@ const SportRadarMapper: Mapper<
 
         return {
             provider,
-            holes,
+            holes: holes.map(SportRadarMapper.hole),
             name,
             par,
-            yardage,
+            length: yardsToMeters(yardage),
+        };
+    },
+    eventType(remoteEventType) {
+        switch (remoteEventType) {
+            case 'cup':
+                return EventType.Cup;
+            case 'team':
+                return EventType.Team;
+            case 'match':
+                return EventType.Match;
+            case 'stroke':
+                return EventType.Stroke;
+            default:
+                throw Error(`Event Type ${remoteEventType} from ${SportRadarMapper.providerName} is not defined`);
+        }
+    },
+    hole(remoteHole) {
+        const {number, description, par, yardage} = remoteHole;
+
+        return {
+            number,
+            description,
+            par,
+            length: yardsToMeters(yardage),
         };
     },
     leaderboardEntry(remoteLeaderboardEntry) {
@@ -59,7 +96,6 @@ const SportRadarMapper: Mapper<
             strokes,
             tied,
             points,
-            status,
         } = objectToCamel(remoteLeaderboardEntry);
 
         return {
@@ -67,8 +103,8 @@ const SportRadarMapper: Mapper<
                 provider: SportRadarMapper._getProvider(id),
                 firstName,
                 lastName,
-                country,
-                displayName,
+                country: toTitleCase(country),
+                displayName: displayName.split('.').join('. '),
             },
             position,
             rounds: remoteLeaderboardEntry.rounds.map(SportRadarMapper.round),
@@ -77,39 +113,46 @@ const SportRadarMapper: Mapper<
             tied,
             money,
             points,
-            status: SportRadarMapper.status(status),
+            status: SportRadarMapper.leaderboardEntryStatus(remoteLeaderboardEntry.status),
         };
+    },
+    leaderboardEntryStatus(remoteLeaderboardEntryStatus) {
+        switch (remoteLeaderboardEntryStatus) {
+            case null:
+            case undefined:
+                return LeaderboardEntryStatus.Unknown;
+            case 'CUT':
+                return LeaderboardEntryStatus.Cut;
+            case 'WD':
+                return LeaderboardEntryStatus.Withdrawn;
+            default:
+                throw Error(
+                    `Leaderboard Entry status ${remoteLeaderboardEntryStatus} from ${SportRadarMapper.providerName} is not defined`
+                );
+        }
     },
     player(remotePlayer) {
         const {
             abbrName: displayName,
-            birthPlace,
             birthday,
             country,
             firstName,
-            handedness,
-            height,
             id,
             lastName,
-            residence,
-            turnedPro,
-            weight,
+            turnedPro: yearTurnedPro,
         } = objectToCamel(remotePlayer);
         const provider = SportRadarMapper._getProvider(id);
 
         return {
             provider,
-            displayName,
-            birthPlace,
-            birthday: new Date(birthday),
-            country,
+            displayName: displayName.split('.').join('. '),
+            dateOfBirth: new Date(birthday),
+            country: toTitleCase(country),
             firstName,
             lastName,
-            height,
-            residence,
-            turnedPro,
-            weight,
-            handedness,
+            height: inchesToCms(remotePlayer.height),
+            yearTurnedPro,
+            weight: poundsToKgs(remotePlayer.weight),
         };
     },
     round(round) {
@@ -143,6 +186,23 @@ const SportRadarMapper: Mapper<
             },
         };
     },
+    season(remoteSeason) {
+        const {year, id, tour} = remoteSeason;
+
+        return {
+            provider: SportRadarMapper._getProvider(id),
+            year,
+            tour: SportRadarMapper.tour(tour),
+        };
+    },
+    simpleSeason(remoteSeason) {
+        const {year, id} = remoteSeason;
+
+        return {
+            provider: SportRadarMapper._getProvider(id),
+            year,
+        };
+    },
     status(status) {
         if (!status) {
             return undefined;
@@ -166,6 +226,15 @@ const SportRadarMapper: Mapper<
                 throw Error(`Status ${status} from ${SportRadarMapper.providerName} is not defined`);
         }
     },
+    tour(remoteTour) {
+        const {alias, name, id} = remoteTour;
+
+        return {
+            provider: SportRadarMapper._getProvider(id),
+            alias,
+            name,
+        };
+    },
     tournament(remoteTournament) {
         const {
             name,
@@ -185,7 +254,7 @@ const SportRadarMapper: Mapper<
         return {
             provider,
             name,
-            eventType,
+            eventType: SportRadarMapper.eventType(eventType),
             currency,
             eventTimezone,
             points,
@@ -220,8 +289,8 @@ const SportRadarMapper: Mapper<
 
         return {
             provider: SportRadarMapper._getProvider(),
-            season,
-            tour,
+            season: SportRadarMapper.simpleSeason(season),
+            tour: SportRadarMapper.tour(tour),
             tournaments: tournaments.map(SportRadarMapper.tournament),
         };
     },
@@ -237,13 +306,12 @@ const SportRadarMapper: Mapper<
             startDate,
             purse,
             id,
-            seasons,
         } = objectToCamel(remoteTournamentResponse);
 
         return {
             provider: SportRadarMapper._getProvider(id),
             name,
-            eventType,
+            eventType: SportRadarMapper.eventType(eventType),
             currency,
             eventTimezone,
             points,
@@ -252,7 +320,7 @@ const SportRadarMapper: Mapper<
             purse,
             status: SportRadarMapper.status(status),
             leaderboard: remoteTournamentResponse.leaderboard.map(SportRadarMapper.leaderboardEntry),
-            seasons,
+            seasons: remoteTournamentResponse.seasons.map(SportRadarMapper.season),
         };
     },
 };

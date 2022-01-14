@@ -1,4 +1,4 @@
-import {TournamentStatus} from './enums.js';
+import {EventType, LeaderboardEntryStatus, TournamentStatus} from './enums.js';
 
 type WithProvider<Base> = Base & {provider: Provider};
 
@@ -19,23 +19,20 @@ type Player = PlayerLite &
     WithProvider<{
         height: number;
         weight: number;
-        birthday: Date;
-        birthPlace: string;
-        residence: string;
-        turnedPro: number;
-        handedness: 'left' | 'right';
+        dateOfBirth: Date;
+        yearTurnedPro: number;
     }>;
 
 interface Hole {
     number: number;
-    par: number;
-    yardage: number;
-    description: string;
+    par?: number;
+    length?: number;
+    description?: string;
 }
 
 type Course = WithProvider<{
     name: string;
-    yardage: number;
+    length: number;
     par: number;
     holes: Hole[];
 }>;
@@ -54,9 +51,13 @@ type Tour = WithProvider<{
     name: string;
 }>;
 
-type Season = WithProvider<{
+type SimpleSeason = WithProvider<{
     year: number;
 }>;
+
+type Season = SimpleSeason & {
+    tour: Tour;
+};
 
 interface Scoring {
     birdies: number;
@@ -78,7 +79,7 @@ interface Round {
 
 export type TournamentBase = WithProvider<{
     name: string;
-    eventType: string;
+    eventType: EventType;
     purse: number;
     currency: string;
     points: number;
@@ -105,12 +106,12 @@ export type LeaderboardEntry = {
     score: number;
     strokes: number;
     rounds: Round[];
-    status?: TournamentStatus;
+    status: LeaderboardEntryStatus;
 };
 
 export type ScheduleResponse = WithProvider<{
     tour: Tour;
-    season: Season;
+    season: SimpleSeason;
     tournaments: TournamentDetailed[];
 }>;
 

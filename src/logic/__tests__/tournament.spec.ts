@@ -1,6 +1,6 @@
 import {findClosestTournament} from '../tournament.js';
 import {TournamentDetailedFactory} from '../../helpers/factories.js';
-import scheduleMock from '../../mocks/schedule/pga/2022.json';
+import scheduleMock from '../../mocks/schedule/pga/2022.js';
 import {SportRadarMapper} from '../../mappers/SportRadarMapper.js';
 
 describe('Find the closest tournament from the schedule, to a given date', () => {
@@ -94,6 +94,6 @@ describe('Find the closest tournament from the schedule, to a given date', () =>
         const thirteenthJan = findClosestTournament(tournaments, new Date(Date.UTC(2022, 0, 13)));
         expect(thirteenthJan).toHaveProperty('name', 'Sony Open in Hawaii');
         expect(thirteenthJan).toHaveProperty('startDate', new Date(Date.UTC(2022, 0, 13)));
-        expect(thirteenthJan).toHaveProperty('defendingChamp.displayName', 'K.Na');
+        expect(thirteenthJan).toHaveProperty('defendingChamp.displayName', 'K. Na');
     });
 });

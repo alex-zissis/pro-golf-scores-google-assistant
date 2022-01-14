@@ -5,9 +5,7 @@ import {dirname, isTest} from '../utils.js';
 import {ScheduleResponse, TournamentResponse} from '../types/golfscores.js';
 
 const [, , mock] = process.argv;
-const shouldMockRequest = !!mock || isTest();
 const mocksDirectory = path.resolve(dirname, '..', 'mocks');
-const disableNodeFetch = isTest();
 
 const urlToJSONFile = (url: string) => {
     // http://api.sportradar.us/golf/trial/pga/v3/en/2022/tournaments/schedule.json?api_key=<API_KEY>
@@ -23,24 +21,25 @@ const urlToJSONFile = (url: string) => {
     throw Error("Can't find JSON");
 };
 
-const fetch = shouldMockRequest
-    ? async (url: string) => ({
-          json: async () => {
-              try {
-                  return JSON.parse((await fs.readFile(urlToJSONFile(url))).toString());
-              } catch (e) {
-                  const result = await nf(url);
-                  const res = (await result.json()) as any;
-                  await fs.writeFile(urlToJSONFile(url), JSON.stringify(res, null, 2));
-                  return res;
-              }
-          },
-      })
-    : !disableNodeFetch
-    ? nf
-    : undefined;
+const _fakeFetch = async (url: string) => ({
+    json: async () => {
+        try {
+            return JSON.parse((await fs.readFile(urlToJSONFile(url))).toString());
+        } catch (e) {
+            const result = await nf(url);
+            const res = (await result.json()) as any;
+            await fs.writeFile(urlToJSONFile(url), JSON.stringify(res, null, 2));
+            return res;
+        }
+    },
+});
 
-if (!fetch) {
+const shouldMockRequest = !!mock || isTest();
+const disableNodeFetch = isTest();
+
+const fetch = shouldMockRequest ? _fakeFetch : nf;
+
+if (shouldMockRequest && !disableNodeFetch) {
     throw Error('Could not initiate a fetch object');
 }
 
@@ -49,16 +48,36 @@ interface GetScheduleArgs {
     year?: number;
 }
 
-export interface Api<ProviderName> {
-    providerName: ProviderName;
+interface IBaseApi {
     fetch:
         | ((url: string) => Promise<{
               json: () => Promise<any>;
           }>)
         | ((url: RequestInfo, init?: RequestInit) => Promise<Response>);
+}
+
+export interface Api<ProviderName> extends IBaseApi {
+    providerName: ProviderName;
 
     getTournament(tournamentId: string, year: number): Promise<TournamentResponse>;
     getSchedule(args?: GetScheduleArgs): Promise<ScheduleResponse>;
 }
 
-export {fetch};
+const BaseApi = {
+    fetch,
+};
+
+function generateApi<ProviderName>({
+    providerName,
+    getSchedule,
+    getTournament,
+}: Pick<Api<ProviderName>, 'providerName' | 'getSchedule' | 'getTournament'>): Api<ProviderName> {
+    const api: Api<ProviderName> = Object.create(BaseApi);
+    api.providerName = providerName;
+    api.getSchedule = getSchedule;
+    api.getTournament = getTournament;
+
+    return api;
+}
+
+export {generateApi};
