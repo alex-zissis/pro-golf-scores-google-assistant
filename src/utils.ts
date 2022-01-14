@@ -72,7 +72,7 @@ const yardsToMeters = (yards: number) => Math.round(yards * 0.9144);
 const toTitleCase = (str: string) =>
     str
         .split(' ')
-        .map((w) => w[0].toUpperCase() + w.substr(1).toLowerCase())
+        .map((w) => w[0].toUpperCase() + w.substring(1).toLowerCase())
         .join(' ');
 
 const isDevelopment = () => process.env.NODE_ENV === 'development';
