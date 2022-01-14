@@ -93,5 +93,5 @@ export {
     inchesToCms,
     poundsToKgs,
     toTitleCase,
-    yardsToMeters
+    yardsToMeters,
 };
