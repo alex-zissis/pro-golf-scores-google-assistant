@@ -1,5 +1,4 @@
 import {Table} from '@assistant/conversation';
-import countries from 'i18n-iso-countries';
 import {LeaderboardEntry} from '../types/golfscores.js';
 import {getFlagEmoji, getPositionForDisplay, getRoundScoreForDisplay, getScoreForDisplay} from '../utils.js';
 
@@ -9,12 +8,6 @@ const getLeaderboardTableForTournament = (
     leaderboard: LeaderboardEntry[]
 ): Table => {
     const leaderboardForDisplay = leaderboard.slice(0, 10);
-    console.log(
-        leaderboardForDisplay.map(({player}) => ({
-            country: player.country,
-            code: countries.getAlpha2Code(player.country, 'en'),
-        }))
-    );
 
     return new Table({
         title: tournamentName,

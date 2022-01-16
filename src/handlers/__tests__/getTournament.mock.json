@@ -1,6 +1,6 @@
 {
     "handler": {
-        "name": "getLeaderboard"
+        "name": "getTournament"
     },
     "intent": {
         "name": "actions.intent.MAIN",

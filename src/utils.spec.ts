@@ -67,13 +67,17 @@ describe('Join array as sentence', () => {
 
 describe('Get flag emoji', () => {
     test('it should correctly display some simple flag emojis', () => {
-        expect(getFlagEmoji('AU')).toEqual('🇦🇺');
-        expect(getFlagEmoji('US')).toEqual('🇺🇸');
-        expect(getFlagEmoji('GB')).toEqual('🇬🇧');
-        expect(getFlagEmoji('ZA')).toEqual('🇿🇦');
-        expect(getFlagEmoji('KR')).toEqual('🇰🇷');
-        expect(getFlagEmoji('jp')).toEqual('🇯🇵');
-        expect(getFlagEmoji('ch')).toEqual('🇨🇭');
+        expect(getFlagEmoji('Australia')).toEqual('🇦🇺');
+        expect(getFlagEmoji('United States')).toEqual('🇺🇸');
+        expect(getFlagEmoji('Great Britain')).toEqual('🇬🇧');
+        expect(getFlagEmoji('England')).toEqual('🇬🇧');
+        expect(getFlagEmoji('Scotland')).toEqual('🇬🇧');
+        expect(getFlagEmoji('Northern Ireland')).toEqual('🇬🇧');
+        expect(getFlagEmoji('Ireland')).toEqual('🇮🇪');
+        expect(getFlagEmoji('South Africa')).toEqual('🇿🇦');
+        expect(getFlagEmoji('South Korea')).toEqual('🇰🇷');
+        expect(getFlagEmoji('Japan')).toEqual('🇯🇵');
+        expect(getFlagEmoji('Switzerland')).toEqual('🇨🇭');
     });
 });
 
