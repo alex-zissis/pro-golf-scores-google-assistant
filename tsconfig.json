@@ -8,7 +8,11 @@
         "outDir": "dist/",
         "esModuleInterop": true,
         "jsx": "react",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "typeRoots": [ "./src/types/root", "./node_modules/@types"],
+        // "paths": {
+        //     "express-serve-static-core": ["./src/types/root/express-serve-static-core"]
+        // }
     },
     "exclude": ["src/**spec.ts*"]
 }

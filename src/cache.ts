@@ -55,5 +55,6 @@ function invalidateCache(cacheKey: CacheKeys): Promise<void> {
 export {CacheKeys};
 
 export default {
-    readCache, writeCache
-}
+    readCache,
+    writeCache,
+};

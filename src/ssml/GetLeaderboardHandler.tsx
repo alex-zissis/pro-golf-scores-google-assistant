@@ -1,29 +1,25 @@
-/** @jsx ssml */
-import ssml, {FC} from 'ssml-tsx';
+/** @jsx _ssml */
+import _ssml, {FC} from 'ssml-tsx';
 import {getLeadersFromLeaderboard, isTournamentComplete} from '../logic/golf.js';
-import {LeaderboardResponse} from '../types/leaderboard';
-import {TournamentStatus} from '../types/schedule';
+import {TournamentStatus} from '../types/enums.js';
+import {TournamentResponse} from '../types/golfscores.js';
 import {TournamentIntroduction} from './components/TournamentIntroduction.js';
 import {TournamentLeaders} from './components/TournamentLeaders.js';
 
 interface GetLeaderboardHandlerProps {
-    leaderboardResponse: LeaderboardResponse;
+    tournamentResponse: TournamentResponse;
     currentRound: number;
     roundStatus: TournamentStatus;
 }
 
-const GetLeaderboardHandler: FC<GetLeaderboardHandlerProps> = ({
-    leaderboardResponse,
-    currentRound,
-    roundStatus,
-}) => (
+const GetLeaderboardHandler: FC<GetLeaderboardHandlerProps> = ({tournamentResponse, currentRound, roundStatus}) => (
     <speak>
-        <TournamentIntroduction tournament={leaderboardResponse} />
+        <TournamentIntroduction tournament={tournamentResponse} />
         <TournamentLeaders
-            leaders={getLeadersFromLeaderboard(leaderboardResponse.leaderboard)}
+            leaders={getLeadersFromLeaderboard(tournamentResponse.leaderboard)}
             currentRound={currentRound}
             roundStatus={roundStatus}
-            isTournamentComplete={isTournamentComplete(leaderboardResponse)}
+            isTournamentComplete={isTournamentComplete(tournamentResponse)}
         />
     </speak>
 );

@@ -1,4 +1,4 @@
-import {LeaderboardEntry} from '../../types/leaderboard';
+import {SportRadarMapper} from '../../mappers/SportRadarMapper.js';
 
 export default [
     {
@@ -202,4 +202,4 @@ export default [
             },
         ],
     },
-] as LeaderboardEntry[];
+].map(SportRadarMapper.leaderboardEntry);

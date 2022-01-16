@@ -1,5 +1,5 @@
-/** @jsx ssml */
-import ssml, {FC} from 'ssml-tsx';
+/** @jsx _ssml */
+import _ssml, {FC} from 'ssml-tsx';
 import numToWords from 'number-to-words';
 
 interface GolfScoreProps {

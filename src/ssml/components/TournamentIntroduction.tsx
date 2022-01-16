@@ -1,21 +1,21 @@
-/** @jsx ssml */
-import ssml, {FC} from 'ssml-tsx';
-import {Tournament} from '../../types/schedule';
-import {LeaderboardResponse} from '../../types/leaderboard';
+/** @jsx _ssml */
+import _ssml, {FC} from 'ssml-tsx';
+import {format} from 'date-fns';
+import {TournamentBase} from '../../types/golfscores.js';
 import {isTournamentComplete, isTournamentInFuture, isTournament} from '../../logic/golf.js';
 
-const addTournamentVenueSuffixIfApplicable = (tournament: Tournament | LeaderboardResponse, leadIn = ' at ') =>
+const addTournamentVenueSuffixIfApplicable = (tournament: TournamentBase, leadIn = ' at ') =>
     `${isTournament(tournament) ? `${leadIn}${tournament.venue.name}.` : '.'}`;
 
 interface TournamentIntroductionProps {
-    tournament: Tournament | LeaderboardResponse;
+    tournament: TournamentBase;
 }
 
 const FutureTournamentIntroduction: FC<TournamentIntroductionProps> = ({tournament}) => (
     <p>
         The {tournament.name} is an upcoming event scheduled to begin{' '}
         <say-as interpret-as="date" format="ymd">
-            {tournament.start_date}
+            {format(tournament.startDate, 'yyyy-MM-dd')}
         </say-as>
         {addTournamentVenueSuffixIfApplicable(tournament)}
     </p>
@@ -25,7 +25,7 @@ const CompletedTournamentIntroduction: FC<TournamentIntroductionProps> = ({tourn
     <p>
         The {tournament.name} finished on{' '}
         <say-as interpret-as="date" format="ymd">
-            {tournament.end_date}
+            {format(tournament.endDate, 'yyyy-MM-dd')}
         </say-as>
         {addTournamentVenueSuffixIfApplicable(tournament, ' and was played at ')}
     </p>

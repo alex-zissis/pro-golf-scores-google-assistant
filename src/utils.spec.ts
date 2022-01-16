@@ -1,21 +1,28 @@
-import {addHoursToDate, getFlagEmoji, getRoundScoreForDisplay, getScoreForDisplay, joinArrayAsSentence} from './utils';
+import {RoundFactory} from './helpers/factories.js';
+import {
+    addHoursToDate,
+    getFlagEmoji,
+    getRoundScoreForDisplay,
+    getScoreForDisplay,
+    joinArrayAsSentence,
+} from './utils.js';
 
 describe('Get round score for display', () => {
     test('It should display a score under par given a negative integer.', () => {
-        expect(getRoundScoreForDisplay({score: -12, thru: 2})).toEqual('-12');
-        expect(getRoundScoreForDisplay({score: -6, thru: 0})).toEqual('-6');
+        expect(getRoundScoreForDisplay(RoundFactory.create({score: -12, thru: 2}))).toEqual('-12');
+        expect(getRoundScoreForDisplay(RoundFactory.create({score: -6, thru: 0}))).toEqual('-6');
     });
 
     test('It should display "-" if a player has not yet started a round that is in progress', () => {
-        expect(getRoundScoreForDisplay({thru: 0, score: 0})).toEqual('-');
+        expect(getRoundScoreForDisplay(RoundFactory.create({thru: 0, score: 0}))).toEqual('-');
     });
 
     test('It should display "E" if a player is even par', () => {
-        expect(getRoundScoreForDisplay({score: 0, thru: 18})).toBe('E');
+        expect(getRoundScoreForDisplay(RoundFactory.create({score: 0, thru: 18}))).toBe('E');
     });
 
     test('It should display a score over par given a positive integer', () => {
-        expect(getRoundScoreForDisplay({thru: 18, score: 4})).toBe('+4');
+        expect(getRoundScoreForDisplay(RoundFactory.create({thru: 18, score: 4}))).toBe('+4');
     });
 });
 

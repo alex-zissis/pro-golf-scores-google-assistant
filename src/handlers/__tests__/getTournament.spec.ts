@@ -1,11 +1,11 @@
 import request from 'supertest';
 import {jest} from '@jest/globals';
 
-import app from '../../app';
-import getLeaderboardReqBody from './getLeaderboard.mock.json';
-import cache, {CacheKeys} from '../../cache';
-import {CacheObject, CurrentTournament} from '../../types/cache';
-import {ConversationResponse} from './handlers';
+import app from '../../app.js';
+import getLeaderboardReqBody from './getTournament.mock.json';
+import cache, {CacheKeys} from '../../cache.js';
+import {CacheObject, CurrentTournament} from '../../types/cache.js';
+import {ConversationResponse} from './handlers.js';
 
 let appInstance: request.SuperTest<request.Test>;
 
@@ -23,10 +23,14 @@ describe('Health check', () => {
 
 describe('Get leaderboard handler', () => {
     it('should return a valid and correct ConversationResponse', async () => {
-        jest.spyOn(cache, 'readCache').mockImplementation(async function (cacheKey: CacheKeys) {
+        jest.spyOn(cache, 'readCache').mockImplementation(async function (_: CacheKeys) {
             return {
                 expiresUtc: new Date(Date.UTC(2025, 1, 1)).toISOString(),
-                id: 'ce99ab88-aaf8-449c-95ae-78e8ea31ed58',
+                provider: {
+                    baseId: 'ce99ab88-aaf8-449c-95ae-78e8ea31ed58',
+                    provider: 'sportradar',
+                    golfScoreId: '',
+                },
                 name: 'Sentry Tournament of Champions',
                 year: 2022,
             } as CacheObject<CurrentTournament>;
@@ -39,7 +43,7 @@ describe('Get leaderboard handler', () => {
         expect(body.session.id).toEqual(
             'ABwppHE9mWCywqanPI8CtQiZERtkfYY92EgU9PE2k1aPMc4PfiHcRq36Js9AWN5g1PzKQ7vSR4TN-IaPjg'
         );
-        expect(body.prompt.firstSimple.speech).toEqual(
+        expect(body.prompt.firstSimple.speech).toBeValidSSMLAndEqual(
             '<speak><p>The Sentry Tournament of Champions finished on <say-as interpret-as="date" format="ymd">2022-01-09</say-as>.</p><p>The winner was Cameron Smith at <sub alias="thirty four under">-34</sub>, after the 4th round.</p></speak>'
         );
         expect(body.prompt.content).toHaveProperty('table');

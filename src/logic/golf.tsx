@@ -1,8 +1,8 @@
-import {LeaderboardEntry, LeaderboardResponse} from '../types/leaderboard';
-import {Tournament, TournamentBase, TournamentStatus} from '../types/schedule';
+import {LeaderboardEntry, TournamentResponse, TournamentDetailed, TournamentBase} from '../types/golfscores.js';
+import {TournamentStatus} from '../types/enums.js';
 
 const getLeadersFromLeaderboard = (leaderboard: LeaderboardEntry[]): LeaderboardEntry[] => {
-    let leaders = [];
+    const leaders = [];
     for (const player of leaderboard) {
         if (player.position === 1) {
             leaders.push(player);
@@ -18,7 +18,7 @@ const getHighestRoundPlayerHasStarted = (player: LeaderboardEntry) => {
     let highestRound = 1;
     for (const round of player.rounds) {
         if (round.thru > 0) {
-            highestRound = round.sequence;
+            highestRound = round.roundNumber;
             continue;
         }
 
@@ -58,27 +58,27 @@ const getCurrentRound = (leaderboard: LeaderboardEntry[]): {currentRound: number
         i++;
     }
 
-    return {currentRound, status: anyRoundVariance ? 'inprogress' : 'closed'};
+    return {currentRound, status: anyRoundVariance ? TournamentStatus.InProgress : TournamentStatus.Completed};
 };
 
-function isLeaderboardResponse(ambigousTournament: any): ambigousTournament is LeaderboardResponse {
+function isTournamentResponse(ambigousTournament: any): ambigousTournament is TournamentResponse {
     return !!ambigousTournament.leaderboard;
 }
 
-function isTournament(ambigousTournament: any): ambigousTournament is Tournament {
-    return !!ambigousTournament.venue;
+function isTournament(ambigousTournament: any): ambigousTournament is TournamentDetailed {
+    return !!ambigousTournament.venue && ambigousTournament.venue.name;
 }
 
-const isTournamentInFuture = ({status}: TournamentBase) => status === 'scheduled';
+const isTournamentInFuture = ({status}: TournamentBase) => status === TournamentStatus.Upcoming;
 const hasTournamentStarted = (tournament: TournamentBase) =>
     isTournamentInProgress(tournament) || isTournamentComplete(tournament);
-const isTournamentInProgress = ({status}: TournamentBase) => status === 'inprogress';
+const isTournamentInProgress = ({status}: TournamentBase) => status === TournamentStatus.InProgress;
 const isTournamentComplete = (tournament: TournamentBase) => {
-    if (tournament.status === 'closed') {
+    if (tournament.status === TournamentStatus.Completed) {
         return true;
     }
 
-    if (tournament.status === 'inprogress' && isLeaderboardResponse(tournament)) {
+    if (tournament.status === TournamentStatus.InProgress && isTournamentResponse(tournament)) {
         const haveAllPlayersCompletedFourRounds = tournament.leaderboard.every(
             // todo support less that 4 rounds
             (player) => player.rounds.length === 4 && player.rounds[3].thru === 18
@@ -97,7 +97,7 @@ export {
     isTournamentComplete,
     isTournamentInProgress,
     isTournament,
-    isLeaderboardResponse,
+    isTournamentResponse,
     getHighestRoundPlayerHasStarted,
     getCurrentRound,
 };
