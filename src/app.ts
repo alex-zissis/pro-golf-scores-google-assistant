@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 const defaultLogFormat =
-    isDevelopment() && !process.env.DEV_JSON_LOGGING
+    (isDevelopment() && !process.env.DEV_JSON_LOGGING) || process.env.DISABLE_LOGS
         ? [winston.format.colorize(), winston.format.cli()]
         : [winston.format.json(), ...(process.env.DEV_JSON_LOGGING ? [winston.format.prettyPrint()] : [])];
 
@@ -41,7 +41,7 @@ if (isProduction() || isDevelopment()) {
     app.use(
         expressWinston.logger({
             transports: [
-                isProduction()
+                isProduction() && !process.env.DISABLE_LOGS
                     ? new WinstonCloudWatch({
                           name: 'http-access-log',
                           logGroupName: '/zico/micro/pro-golf-scores-api',
@@ -52,7 +52,6 @@ if (isProduction() || isDevelopment()) {
                                   .digest('hex')}`;
                           },
                           jsonMessage: true,
-                          
                       })
                     : new winston.transports.Console(),
             ],

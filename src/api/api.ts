@@ -39,7 +39,7 @@ const disableNodeFetch = isTest();
 
 const fetch = shouldMockRequest ? _fakeFetch : nf;
 
-if (shouldMockRequest && disableNodeFetch) {
+if (!shouldMockRequest && disableNodeFetch) {
     throw Error('Could not initiate a fetch object');
 }
 

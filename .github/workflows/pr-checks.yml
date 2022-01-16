@@ -17,7 +17,7 @@ jobs:
         run: |
           docker build -t pro-golf-scores:latest . --target test
           docker build -t pro-golf-scores:latest .
-          docker run  -d -p 10000:3000 pro-golf-scores:latest
+          docker run -e DISABLE_LOGS=1 -d -p 10000:3000 pro-golf-scores:latest
       - name: Perform healthcheck
         run: |
           sleep 5

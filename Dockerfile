@@ -1,3 +1,5 @@
+ARG DISABLE_LOGS
+
 FROM node:16-alpine AS ts-builder
 WORKDIR /app
 COPY package.json .
@@ -17,6 +19,7 @@ WORKDIR /app
 RUN ["yarn", "test"]
 
 FROM node:16-alpine AS prod-runtime
+ENV DISABLE_LOGS ${DISABLE_LOGS}
 WORKDIR /app
 ENV SPORTRADAR_API_KEY a
 COPY --from=ts-builder ./app/dist ./dist
