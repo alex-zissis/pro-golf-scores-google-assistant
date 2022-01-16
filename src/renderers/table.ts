@@ -9,7 +9,12 @@ const getLeaderboardTableForTournament = (
     leaderboard: LeaderboardEntry[]
 ): Table => {
     const leaderboardForDisplay = leaderboard.slice(0, 10);
-    console.log(leaderboardForDisplay.map(({player}) => ({country: player.country, code: countries.getAlpha2Code(player.country, 'en')})))
+    console.log(
+        leaderboardForDisplay.map(({player}) => ({
+            country: player.country,
+            code: countries.getAlpha2Code(player.country, 'en'),
+        }))
+    );
 
     return new Table({
         title: tournamentName,
