@@ -8,10 +8,11 @@ if (isDevelopment()) {
     dotenv.config();
 }
 
-const conversationApp = conversation({verification: 'progolfscores', logger: winston});
-
-// todo delete old handler name
-conversationApp.handle('getLeaderboard', getTournament);
+const conversationApp = conversation({
+    verification: 'progolfscores',
+    logger: winston,
+    debug: isDevelopment() && process.env.DEBUG_CONVERSATION === '1',
+});
 
 conversationApp.handle('getTournament', getTournament);
 
