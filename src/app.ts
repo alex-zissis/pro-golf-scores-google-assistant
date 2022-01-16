@@ -71,7 +71,17 @@ if (isProduction() || isDevelopment()) {
                 return {
                     req: {
                         url: req.url,
-                        headers: req.headers,
+                        headers: {
+                            ...req.headers,
+                            ...(req.headers['google-assistant-signature']
+                                ? {
+                                      'google-assistant-signature': `${req.headers['google-assistant-signature'].slice(
+                                          0,
+                                          8
+                                      )}...`,
+                                  }
+                                : {}),
+                        },
                         method: req.method,
                         httpVersion: req.httpVersion,
                         originalUrl: req.originalUrl,
@@ -88,7 +98,7 @@ if (isProduction() || isDevelopment()) {
 
 app.set('trust proxy', true);
 
-app.post('/', conversationApp);
+app.post('/conversation', conversationApp);
 
 app.get('/health', (req, res) => res.status(200).send('👍'));
 

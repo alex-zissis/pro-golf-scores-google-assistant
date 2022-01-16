@@ -36,7 +36,7 @@ describe('Get leaderboard handler', () => {
             } as CacheObject<CurrentTournament>;
         });
 
-        const res = await request(app).post('/').send(getLeaderboardReqBody);
+        const res = await request(app).post('/conversation').send(getLeaderboardReqBody);
         expect(res.statusCode).toEqual(200);
 
         const body: ConversationResponse = res.body;
