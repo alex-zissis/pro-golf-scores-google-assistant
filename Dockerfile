@@ -26,4 +26,4 @@ COPY yarn.lock .
 RUN yarn install --production
 RUN yarn patch-package
 EXPOSE 3000
-ENTRYPOINT ["yarn", "start:prod"]
+ENTRYPOINT ["yarn", "-s", "start:prod"]
