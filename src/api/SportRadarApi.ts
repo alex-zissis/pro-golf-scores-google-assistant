@@ -3,7 +3,7 @@ import {SportRadarMapper} from '../mappers/SportRadarMapper.js';
 
 const SportRadarApi: Api<'sportradar'> = generateApi<'sportradar'>({
     providerName: 'sportradar',
-    getSchedule: async (args) => {
+    getSchedule: async (args = {tour: 'PGA', year: new Date().getFullYear()}) => {
         return SportRadarMapper.ScheduleResponse(
             await SportRadarApi.fetch(
                 `http://api.sportradar.us/golf/trial/${args.tour}/v3/en/${args.year}/tournaments/schedule.json?api_key=${process.env.SPORTRADAR_API_KEY}`

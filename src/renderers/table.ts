@@ -9,6 +9,7 @@ const getLeaderboardTableForTournament = (
     leaderboard: LeaderboardEntry[]
 ): Table => {
     const leaderboardForDisplay = leaderboard.slice(0, 10);
+    console.log(leaderboardForDisplay.map(({player}) => ({country: player.country, code: countries.getAlpha2Code(player.country, 'en')})))
 
     return new Table({
         title: tournamentName,
@@ -19,7 +20,7 @@ const getLeaderboardTableForTournament = (
                     cells: [
                         {text: getPositionForDisplay(entry, leaderboardForDisplay[i - 1])},
                         {text: `${entry.player.firstName} ${entry.player.lastName}`},
-                        {text: getFlagEmoji(countries.getAlpha2Code(entry.player.country, 'en'))},
+                        {text: getFlagEmoji(entry.player.country)},
                         {text: getScoreForDisplay(entry.score)},
                         {text: getRoundScoreForDisplay(entry.rounds[currentRound - 1])},
                     ],

@@ -1,4 +1,5 @@
 import {fileURLToPath} from 'url';
+import countries from 'i18n-iso-countries';
 import {LeaderboardEntry, Round} from './types/golfscores.js';
 
 const dirname = fileURLToPath(import.meta.url);
@@ -56,7 +57,23 @@ const getPositionForDisplay = (player: LeaderboardEntry, lastPlayer: Leaderboard
     return player.position.toString();
 };
 
-const getFlagEmoji = (countryCode: string) => {
+const resolveCountry = (country: string) => {
+    country = country.toLowerCase();
+
+    if (['england', 'scotland', 'wales', 'northern ireland'].includes(country)) {
+        return 'united kingdom';
+    }
+
+    return country;
+};
+
+const getFlagEmoji = (country: string) => {
+    const countryCode = countries.getAlpha2Code(resolveCountry(country), 'en');
+
+    if (!countryCode) {
+        return '🏳';
+    }
+
     const codePoints = countryCode
         .toUpperCase()
         .split('')
