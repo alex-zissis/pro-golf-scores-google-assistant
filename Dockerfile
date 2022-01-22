@@ -10,7 +10,6 @@ COPY patches ./patches
 COPY src ./src
 COPY jest.config.js .
 COPY .eslintrc.cjs .
-COPY prettier.config.cjs .
 RUN yarn install
 RUN yarn lint
 RUN yarn build
