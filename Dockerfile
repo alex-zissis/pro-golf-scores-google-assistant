@@ -1,6 +1,7 @@
 ARG DISABLE_LOGS
+ARG NODE_VERSION=16.13.2
 
-FROM node:16-alpine AS ts-builder
+FROM node:${NODE_VERSION}-alpine AS ts-builder
 WORKDIR /app
 COPY package.json .
 COPY yarn.lock .
@@ -18,7 +19,7 @@ FROM ts-builder AS test
 WORKDIR /app
 RUN ["yarn", "test"]
 
-FROM node:16-alpine AS prod-runtime
+FROM node:${NODE_VERSION}-alpine AS prod-runtime
 ENV DISABLE_LOGS ${DISABLE_LOGS}
 WORKDIR /app
 ENV SPORTRADAR_API_KEY a
@@ -27,6 +28,5 @@ COPY --from=ts-builder ./app/patches ./patches
 COPY package.json .
 COPY yarn.lock .
 RUN yarn install --production
-RUN yarn patch-package
 EXPOSE 3000
 ENTRYPOINT ["yarn", "-s", "start:prod"]
