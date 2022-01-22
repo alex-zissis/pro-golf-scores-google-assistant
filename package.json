@@ -11,7 +11,7 @@
     "dependencies": {
         "@assistant/conversation": "^3.8.1",
         "@nextools/suppress-experimental-warnings": "^0.1.0",
-        "@zicodev/micro": "^0.1.0-b3",
+        "@zicodev/micro": "^0.1.0-b4",
         "date-fns": "^2.28.0",
         "dotenv": "^10.0.0",
         "express": "^4.17.2",
