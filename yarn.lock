@@ -1574,10 +1574,10 @@
     eslint-plugin-prettier "^4.0.0"
     prettier "^2.5.1"
 
-"@zicodev/micro@^0.1.0-b1":
-  version "0.1.0-b1"
-  resolved "https://npm.pkg.github.com/download/@zicodev/micro/0.1.0-b1/7b73144c096b214de7ce3a83678c2a1675f3726ce324003a5a7c26a1abba4e8c#53d6d141757d8f576175c3e86cfc1d6cc79445b6"
-  integrity sha512-v46I6KgUBf4I2RuNTSdBnzHMJpZoxWA+sIWM3eApbSt7AJ5ZyICz0u7Nb4phhPXR7noYsiMT09ZDlVyo6hz+YQ==
+"@zicodev/micro@^0.1.0-b2":
+  version "0.1.0-b2"
+  resolved "https://npm.pkg.github.com/download/@zicodev/micro/0.1.0-b2/354d9000bedd813073aeb3227c08704fa98ecf86698dd90116201e3b45c3c5e4#1594984b4eff02a239ffdc7cd289a55bc5449ff0"
+  integrity sha512-TFwqbRDS6WL8181JL6FnbX8xW3Si6lhazlbTP0xEEn97NQvZ/vFTspMOoEn8Bbj45fUvpAUgZ6T6kgu/cMXMwg==
   dependencies:
     body-parser "^1.19.1"
     date-fns "^2.28.0"
