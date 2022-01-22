@@ -3,6 +3,7 @@ ARG NODE_VERSION=16.13.2
 
 FROM node:${NODE_VERSION}-alpine AS ts-builder
 WORKDIR /app
+COPY .npmrc .
 COPY package.json .
 COPY yarn.lock .
 COPY tsconfig.json .
@@ -26,6 +27,7 @@ COPY --from=ts-builder ./app/dist ./dist
 COPY --from=ts-builder ./app/patches ./patches
 COPY package.json .
 COPY yarn.lock .
+COPY .npmrc .
 RUN yarn install --production
 EXPOSE 3000
 ENTRYPOINT ["yarn", "-s", "start:prod"]
