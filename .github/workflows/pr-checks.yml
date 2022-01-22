@@ -18,6 +18,7 @@ jobs:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
           echo //npm.pkg.github.com/:_authToken=${NPM_AUTH_TOKEN} >> .npmrc
+          cat .npmrc
           docker build -t pro-golf-scores:latest . --target test
           docker build -t pro-golf-scores:latest .
           docker run -e DISABLE_LOGS=1 -d -p 10000:3000 pro-golf-scores:latest
