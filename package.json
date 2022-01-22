@@ -35,7 +35,7 @@
         "@types/pluralize": "^0.0.29",
         "@types/supertest": "^2.0.11",
         "@typescript-eslint/parser": "^5.9.1",
-        "@zicodev/eslint-config-zico": "^0.0.2-b",
+        "@zicodev/eslint-config-zico": "^0.0.2-c",
         "eslint": "^8.7.0",
         "jest": "^27.4.7",
         "nodemon": "^2.0.15",
@@ -47,7 +47,7 @@
     },
     "scripts": {
         "build": "tsc",
-        "lint": "eslint --ext .ts,.tsx --resolve-plugins-relative-to node_modules/@zicodev/eslint-config-zico . ",
+        "lint": "eslint --ext .ts,.tsx --resolve-plugins-relative-to node_modules/@zicodev/eslint-config-zico src",
         "postinstall": "patch-package",
         "start:dev": "NODE_ENV=development nodemon -e tsx,ts --exec 'node -r @nextools/suppress-experimental-warnings --experimental-specifier-resolution=node --loader ts-node/esm' src/server.ts mock",
         "start:prod": "NODE_ENV=production node -r @nextools/suppress-experimental-warnings dist/server.js",

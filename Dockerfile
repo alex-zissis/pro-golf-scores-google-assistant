@@ -10,8 +10,10 @@ COPY tsconfig.json .
 COPY patches ./patches
 COPY src ./src
 COPY jest.config.js .
+COPY .eslintignore .
 COPY .eslintrc.cjs .
 RUN yarn install
+RUN cp node_modules/@zicodev/eslint-config-zico/prettier.config.js prettier.config.cjs
 RUN yarn lint
 RUN yarn build
 

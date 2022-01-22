@@ -1562,10 +1562,10 @@
   resolved "https://registry.npmjs.org/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@zicodev/eslint-config-zico@^0.0.2-b":
-  version "0.0.2-b"
-  resolved "https://npm.pkg.github.com/download/@zicodev/eslint-config-zico/0.0.2-b/27aa238fcf547b6e5d75551df1cf2e346fe6c220b5aa5b5d248ad008eb53999c#dfd01402297a488c1021c77358736c825943c7a8"
-  integrity sha512-R8Vcv7L4Vjo4tL+hSEmoxZmlWTX4aFS7eSdRq/nbgPgdevppaq68YD07y5dsyYtUBO5qfilFbVHhleNBywvS/w==
+"@zicodev/eslint-config-zico@^0.0.2-c":
+  version "0.0.2-c"
+  resolved "https://npm.pkg.github.com/download/@zicodev/eslint-config-zico/0.0.2-c/c610af2509004e3516aca128f3b95fbc73dad728038f48fa3da9fe8db8ca977f#7686e75215584d8bac27018fdbb802fb58209794"
+  integrity sha512-/kK7+conzYxFkfuWub8/tqTyqJK0kefH8KRYLuqQ9CGOg0aY7wAuwMSr1uB/r/bfHGDGjRzXyeZhR4/IpIypcA==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^5.9.1"
     eslint-config-airbnb-base "^15.0.0"
