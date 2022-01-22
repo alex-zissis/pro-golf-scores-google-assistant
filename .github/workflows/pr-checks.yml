@@ -17,7 +17,6 @@ jobs:
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
-          echo //npm.pkg.github.com/:_authToken=${NPM_AUTH_TOKEN} >> .npmrc
           cat .npmrc
           docker build -t pro-golf-scores:latest . --target test
           docker build -t pro-golf-scores:latest .
