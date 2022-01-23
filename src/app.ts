@@ -12,7 +12,7 @@ configureApp(
     () => {
         app.post('/conversation', conversationApp);
     },
-    {logGroupName: '/zico/micro/pro-golf-scores'}
+    {logGroupName: '/zico/micro/pro-golf-scores-api'}
 );
 
 export default app;
